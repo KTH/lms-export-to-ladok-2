@@ -3,15 +3,13 @@ const isAllowed = require('../lib/is-allowed')
 const { ClientError } = require('../lib/errors')
 
 async function authorize (req, res, next) {
-  const accessData = req.accessData || req.signedCookies.access_data
-  const courseId = req.query.course_id || req.body.course_id
-
-  req.accessData = accessData
+  const accessData = req.session
+  const courseId = req.body.course_id || req.query.course_id
 
   if (!accessData) {
     throw new Error('No access data found')
   }
-  
+
   // TODO: this should be !== to work!
   if (accessData.realUserId && accessData.userId === accessData.realUserId) {
     throw new ClientError(
@@ -50,11 +48,10 @@ async function authorize (req, res, next) {
 async function setAdminCookie (req, res, next) {
   log.fatal('You are setting the admin token in a Cookie!!!!')
 
-  res.cookie(
-    'access_data',
-    { token: process.env.CANVAS_ADMIN_API_TOKEN },
-    { signed: true }
-  )
+  req.session = {
+    token: process.env.CANVAS_ADMIN_API_TOKEN
+  }
+
   next()
 }
 

@@ -110,8 +110,7 @@ const oauth2 = redirectPath =>
       req.query.code
     )
 
-    req.accessData = accessData
-    res.cookie('access_data', accessData, { signed: true })
+    req.session = accessData
     next()
   }
 
