@@ -16,10 +16,10 @@ async function start () {
     moduleId
   )
   const draft1 = ladok.createDraft(moduleId)
-  await draft1.setGrade(gradeableResults1[0], 'P', '2019-12-01')
-  await draft1.setGrade(gradeableResults1[6], 'F', '2019-12-01')
+  await draft1.setGrade(gradeableResults1[0], 'F', '2019-12-01')
+  await draft1.setGrade(gradeableResults1[1], 'F', '2019-12-01')
   const result1 = await ladok.sendDraft(draft1)
-  return
+  // return
   console.log(result1.create.Resultat)
 
   // Draft 2
@@ -30,12 +30,12 @@ async function start () {
   const draft2 = ladok.createDraft(moduleId)
 
   await draft2.setGrade(gradeableResults2[0], 'P', '2019-12-01') // Same
-  await draft2.setGrade(gradeableResults2[1], 'P', '2019-12-01') // Update
+  await draft2.setGrade(gradeableResults2[1], 'P', '2030-12-01') // Update
   await draft2.setGrade(gradeableResults2[2], 'P', '2019-12-01') // Create
 
   const result2 = await ladok.sendDraft(draft2)
   console.log(result2.create.Resultat)
-  console.log(result2.update.Resultat)
+  console.log(result2.update)
 }
 
 start()
