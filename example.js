@@ -17,7 +17,7 @@ async function start () {
   )
   const draft1 = ladok.createDraft(moduleId)
   await draft1.setGrade(gradeableResults1[0], 'F', '2019-12-01')
-  await draft1.setGrade(gradeableResults1[1], 'F', '2019-12-01')
+  await draft1.setGrade(gradeableResults1[6], 'F', '2019-12-01')
   const result1 = await ladok.sendDraft(draft1)
   // return
   console.log(result1.create)
