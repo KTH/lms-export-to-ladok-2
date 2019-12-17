@@ -21,7 +21,17 @@ function Select ({ name, onChange, options, label }) {
   )
 }
 
-function App ({ courseId }) {
+function Form ({ courseId, onSubmit = () => {} }) {
+  function handleSubmit (event) {
+    onSubmit({
+      assignment: selectedAssignment,
+      module: selectedModule,
+      examinationDate
+    })
+
+    event.preventDefault()
+  }
+
   const { loading, error, data } = useFetch(
     `api/course-info?course_id=${courseId}`
   )
@@ -36,7 +46,7 @@ function App ({ courseId }) {
   const showTable = selectedAssignment && selectedModule
 
   return (
-    <form method='post'>
+    <form method='post' onSubmit={handleSubmit}>
       <h2>Canvas assignment</h2>
       <Select
         name='canvas_assignment'
@@ -79,4 +89,4 @@ function App ({ courseId }) {
   )
 }
 
-export default App
+export default Form
