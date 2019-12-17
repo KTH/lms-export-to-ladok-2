@@ -1,4 +1,18 @@
-@import 'kth-style/public/sass/kth-bootstrap';
+// KTH variables (added here so you can use kth-base-template.scss separately in your application)
+@import 'node_modules/kth-style/public/sass/variables/colors';
+@import 'node_modules/kth-style/public/sass/variables/sizes';
+@import 'node_modules/kth-style/public/sass/variables/fonts';
+
+// Bootstrap source (added here so you can use kth-base-template.scss separately in your application)
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/bootstrap/scss/root';
+@import 'node_modules/bootstrap/scss/reboot';
+@import 'node_modules/bootstrap/scss/type';
+@import 'node_modules/kth-style/public/sass/bootstrap/fonts';
+
+@import 'node_modules/kth-style/public/sass/custom/commonStyle';
 
 html {
   overflow-y: scroll;
@@ -10,4 +24,9 @@ body {
   color: $black;
   margin: 0;
   padding: $spacing;
+}
+
+.container {
+  padding: 0 15px;
+  max-width: 768px;
 }
