@@ -28,6 +28,7 @@ function App ({ courseId }) {
 
   const [selectedAssignment, setAssignment] = useState(null)
   const [selectedModule, setModule] = useState(null)
+  const [examinationDate, setExaminationDate] = useState(null)
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error</div>
@@ -56,9 +57,12 @@ function App ({ courseId }) {
         same Examination Date. If you need to set a different date individually,
         please change it in Ladok after exporting.
       </p>
-      <input name='examination_date' type='date' required />
-
-      <input type='hidden' name='course_id' value={courseId} />
+      <input
+        name='examination_date'
+        type='date'
+        value={examinationDate}
+        onChange={event => setExaminationDate(event.target.value)}
+      />
 
       <h2>Click to export</h2>
       <button type='submit'>Export to Ladok</button>
