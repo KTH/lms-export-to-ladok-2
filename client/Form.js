@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Table from './Table'
 import { useFetch } from './react-hooks'
+import { RightIcon } from './Icons'
 
 function Select ({ name, onChange, options, label }) {
   function changeHandler (event) {
@@ -10,14 +11,16 @@ function Select ({ name, onChange, options, label }) {
   }
 
   return (
-    <select name={name} onChange={changeHandler}>
-      <option value='X'>{label}</option>
-      {options.map(({ id, name }) => (
-        <option key={id} value={id}>
-          {name}
-        </option>
-      ))}
-    </select>
+    <div className='select-wrapper'>
+      <select name={name} onChange={changeHandler} className='custom-select'>
+        <option value='X'>{label}</option>
+        {options.map(({ id, name }) => (
+          <option key={id} value={id}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </div>
   )
 }
 
@@ -47,20 +50,31 @@ function Form ({ courseId, onSubmit = () => {} }) {
 
   return (
     <form method='post' onSubmit={handleSubmit}>
-      <h2>Canvas assignment</h2>
-      <Select
-        name='canvas_assignment'
-        onChange={event => setAssignment(event.target.value)}
-        label='Select an assignment in Canvas'
-        options={data.canvasAssignments}
-      />
-      <h2>Ladok Module</h2>
-      <Select
-        name='ladok_module'
-        onChange={event => setModule(event.target.value)}
-        label='Select an module in Ladok'
-        options={data.ladokModules}
-      />
+      <h2>From where to where do you want to transfer grades?</h2>
+      <div className='form-row align-items-center'>
+        <div className='col-4 my-1 form-select'>
+          <label>Source</label>
+          <Select
+            name='canvas_assignment'
+            onChange={event => setAssignment(event.target.value)}
+            label='Select an assignment in Canvas'
+            options={data.canvasAssignments}
+          />
+        </div>
+        <div className='col-auto mt-2'>
+          <RightIcon />
+        </div>
+        <div className='col-4 my-1 form-select'>
+          <label>Destination</label>
+          <Select
+            name='ladok_module'
+            onChange={event => setModule(event.target.value)}
+            label='Select a module in Ladok'
+            options={data.ladokModules}
+          />
+        </div>
+      </div>
+
       <h2>Examination Date</h2>
       <p>
         Required field. When exporting to Ladok, all students will receive the
