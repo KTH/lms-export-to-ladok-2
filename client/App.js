@@ -2,6 +2,25 @@ import React, { useState } from 'react'
 import Table from './Table'
 import { useFetch, useValidatedState } from './react-hooks'
 
+function Select ({ name, onChange, options, label }) {
+  function changeHandler (event) {
+    if (event.target.value !== 'X') {
+      onChange(event)
+    }
+  }
+
+  return (
+    <select name={name} onChange={changeHandler}>
+      <option value='X'>{label}</option>
+      {options.map(({ id, name }) => (
+        <option key={id} value={id}>
+          {name}
+        </option>
+      ))}
+    </select>
+  )
+}
+
 function App ({ courseId }) {
   const { loading, error, data } = useFetch(
     `api/course-info?course_id=${courseId}`
@@ -13,40 +32,24 @@ function App ({ courseId }) {
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error</div>
 
-  const allAssignments = [
-    { id: 0, name: 'Choose an assignment in Canvas' }
-  ].concat(data.canvasAssignments)
-
-  const allModules = [{ id: 0, name: 'Choose a module in Ladok' }].concat(
-    data.ladokModules
-  )
-
   const showTable = selectedAssignment && selectedModule
 
   return (
     <div>
       <h2>Canvas assignment</h2>
-      <select
+      <Select
         name='canvas_assignment'
         onChange={event => setAssignment(event.target.value)}
-      >
-        {allAssignments.map(assignment => (
-          <option key={assignment.id} value={assignment.id}>
-            {assignment.name}
-          </option>
-        ))}
-      </select>
+        label='Select an assignment in Canvas'
+        options={data.canvasAssignments}
+      />
       <h2>Ladok Module</h2>
-      <select
+      <Select
         name='ladok_module'
         onChange={event => setModule(event.target.value)}
-      >
-        {allModules.map(ladokModule => (
-          <option key={ladokModule.id} value={ladokModule.id}>
-            {ladokModule.name} - {ladokModule.title}
-          </option>
-        ))}
-      </select>
+        label='Select an module in Ladok'
+        options={data.ladokModules}
+      />
       <h2>Examination Date</h2>
       <p>
         Required field. When exporting to Ladok, all students will receive the
