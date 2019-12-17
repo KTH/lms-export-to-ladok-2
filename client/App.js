@@ -35,7 +35,7 @@ function App ({ courseId }) {
   const showTable = selectedAssignment && selectedModule
 
   return (
-    <div>
+    <form method='post'>
       <h2>Canvas assignment</h2>
       <Select
         name='canvas_assignment'
@@ -71,7 +71,7 @@ function App ({ courseId }) {
           module={selectedModule}
         />
       )}
-    </div>
+    </form>
   )
 }
 
