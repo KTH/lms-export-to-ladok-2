@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Table from './Table'
-import { useFetch, useValidatedState } from './react-hooks'
+import { useFetch } from './react-hooks'
 
 function Select ({ name, onChange, options, label }) {
   function changeHandler (event) {
