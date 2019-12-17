@@ -75,29 +75,48 @@ function Form ({ courseId, onSubmit = () => {} }) {
         </div>
       </div>
 
-      <h2>Examination Date</h2>
-      <p>
-        Required field. When exporting to Ladok, all students will receive the
-        same Examination Date. If you need to set a different date individually,
-        please change it in Ladok after exporting.
-      </p>
-      <input
-        name='examination_date'
-        type='date'
-        value={examinationDate}
-        onChange={event => setExaminationDate(event.target.value)}
-      />
-
-      <h2>Click to export</h2>
-      <button type='submit'>Export to Ladok</button>
-
-      <h2>Here you can see the grades of the selected assignment/module</h2>
       {showTable && (
-        <Table
-          course={courseId}
-          assignment={selectedAssignment}
-          module={selectedModule}
-        />
+        <div className='my-5'>
+          <h2>Ready to export</h2>
+          <div>
+            <h3>Examination date</h3>
+            <p>
+              Choose the "examination date" to be sent to Ladok. When exporting,
+              all students will receive the same date. If you need to set a
+              different date individually, please change it in Ladok after
+              exporting.
+            </p>
+            <input
+              name='examination_date'
+              className='custom-control form-control d-inline w-auto'
+              type='date'
+              value={examinationDate}
+              onChange={event => setExaminationDate(event.target.value)}
+            />
+          </div>
+          <div className='form-row align-items-center my-2'>
+            <div className='ml-auto'>
+              <span className='mx-2'>
+                You can compare below what is currently in Canvas and Ladok
+              </span>
+              <button
+                type='submit'
+                className='btn btn-primary btn-lg font-weight-bold'
+              >
+                Export to Ladok
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showTable && (
+        <div className='my-5'>
+          <Table
+            course={courseId}
+            assignment={selectedAssignment}
+            module={selectedModule}
+          />
+        </div>
       )}
     </form>
   )
