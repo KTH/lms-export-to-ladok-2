@@ -5,8 +5,7 @@ module.exports = {
   mode: process.env.NODE_ENV || 'production',
   context: path.resolve(__dirname, 'client'),
   entry: {
-    index: ['./index.scss', './index.js'],
-    feedback: ['./feedback.js']
+    index: ['./index.scss', './index.js']
   },
   output: {
     filename: '[name].js',
