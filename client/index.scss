@@ -10,6 +10,7 @@
 @import 'node_modules/bootstrap/scss/root';
 @import 'node_modules/bootstrap/scss/reboot';
 @import 'node_modules/bootstrap/scss/type';
+@import 'node_modules/bootstrap/scss/buttons';
 @import 'node_modules/kth-style/public/sass/bootstrap/fonts';
 
 @import 'node_modules/kth-style/public/sass/custom/commonStyle';
@@ -29,4 +30,25 @@ body {
 .container {
   padding: 0 15px;
   max-width: 768px;
+}
+
+.btn-hero {
+  margin: 0 auto;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: inline-block;
+  font-family: $sansSerif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  overflow: visible;
+  padding: 8px 24px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  -moz-appearance: button;
 }
