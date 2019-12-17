@@ -24,8 +24,8 @@ function Select ({ name, onChange, options, label }) {
 function Form ({ courseId, onSubmit = () => {} }) {
   function handleSubmit (event) {
     onSubmit({
-      assignment: selectedAssignment,
-      module: selectedModule,
+      selectedAssignment,
+      selectedModule,
       examinationDate
     })
 
@@ -38,7 +38,7 @@ function Form ({ courseId, onSubmit = () => {} }) {
 
   const [selectedAssignment, setAssignment] = useState(null)
   const [selectedModule, setModule] = useState(null)
-  const [examinationDate, setExaminationDate] = useState(null)
+  const [examinationDate, setExaminationDate] = useState('')
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error</div>

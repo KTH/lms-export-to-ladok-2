@@ -62,12 +62,7 @@ async function submitForm (req, res) {
       req.signedCookies.access_data.token
     )
 
-    res.render('feedback', {
-      prefix_path: process.env.PROXY_PATH,
-      course_id: req.query.course_id,
-      layout: false,
-      draft: JSON.stringify(draft)
-    })
+    res.send(draft)
   } catch (err) {
     err.name = 'ExportError'
     log.error(err)

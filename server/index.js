@@ -60,7 +60,6 @@ router.get('/', rootPage)
 router.post('/export', startPage)
 router.post('/export2', oauth1)
 router.get('/export3', oauth2, authorization.authorize, showForm)
-router.post('/export3', submitForm)
 
 router.get('/_monitor', system.monitor)
 router.get('/_monitor_all', system.monitor)
@@ -71,6 +70,7 @@ router.use(handleExportError)
 apiRouter.use(authorization.authorize)
 apiRouter.get('/course-info', listCourseData)
 apiRouter.get('/table', listGradesData)
+apiRouter.post('/export', submitForm)
 
 server.use(PROXY_PATH, router)
 server.use(function catchKnownError (err, req, res, next) {
