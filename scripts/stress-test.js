@@ -1,8 +1,8 @@
 /** Do a "stress" test trying to send lots of grades to Ladok from a module */
 require('dotenv').config()
-require('./lib/ladok/api').init()
+require('../lib/ladok/api').init()
 
-const ladok = require('./lib/ladok')
+const ladok = require('../lib/ladok')
 
 async function runTest (sectionId, moduleId) {
   const t1 = new Date()

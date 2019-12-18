@@ -1,8 +1,8 @@
 /** Try to send grades to Ladok and see what happens */
 require('dotenv').config()
-require('./lib/ladok/api').init()
+require('../lib/ladok/api').init()
 
-const ladok = require('./lib/ladok')
+const ladok = require('../lib/ladok')
 
 async function start () {
   // Assume a specific Ladok module, Kurstilfälle, etc.
