@@ -1,4 +1,5 @@
 import React from 'react'
+import { useFetch } from './react-hooks'
 import Table from './Table'
 
 function WizardConfirm ({
@@ -8,7 +9,13 @@ function WizardConfirm ({
   examinationDate,
   courseId
 }) {
-  const showTable = selectedAssignment && selectedModule
+  const { loading, error, data } = useFetch(
+    `api/table?course_id=${courseId}&assignment_id=${selectedAssignment.id}&module_id=${selectedModule.id}`
+  )
+
+  if (loading) return <div className='loader'>Loading...</div>
+
+  if (error) return <div>error</div>
 
   const tableFooter = (
     <div className='button-section'>
@@ -62,15 +69,13 @@ function WizardConfirm ({
           relaunch the application.
         </p>
       </div>
-      {showTable && (
-        <Table
-          course={courseId}
-          assignment={selectedAssignment}
-          module={selectedModule}
-          date={examinationDate}
-        />
-      )}
-      {showTable && tableFooter}
+      <Table
+        assignment={selectedAssignment}
+        module={selectedModule}
+        date={examinationDate}
+        data={data}
+      />
+      {tableFooter}
     </form>
   )
 }

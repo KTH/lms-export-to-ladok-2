@@ -1,15 +1,6 @@
 import React from 'react'
-import { useFetch } from './react-hooks'
 
-function Table ({ course, assignment, module, date }) {
-  const { loading, error, data } = useFetch(
-    `api/table?course_id=${course}&assignment_id=${assignment.id}&module_id=${module.id}`
-  )
-
-  if (loading) return <div className='loader'>Loading...</div>
-
-  if (error) return <div>error</div>
-
+function Table ({ assignment, module, data, date }) {
   const sortedList = data
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name, 'sv'))
