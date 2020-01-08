@@ -111,7 +111,8 @@ function WizardForm({
       <p>
         Required field. When exporting to Ladok, all effected results will
         receive the same Examination Date. If you need to set a different date
-        individually, please change it in Ladok after exporting.
+        individually, please change it in Ladok after exporting. Note that only
+        changed results will get this examination date.
       </p>
       <input
         name="examination_date "
