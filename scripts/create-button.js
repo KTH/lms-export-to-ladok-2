@@ -59,7 +59,6 @@ async function start() {
     privacy_level: "public",
     course_navigation: {
       visibility: "members",
-      label: "Emil testar label",
       windowTarget: "_self",
       text: buttonName,
       default: false,
