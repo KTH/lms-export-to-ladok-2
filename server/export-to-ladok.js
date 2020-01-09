@@ -3,73 +3,73 @@ const {
   getLadokModules,
   sendGradesToLadok,
   getGrades
-} = require("../lib");
-const log = require("skog");
+} = require('../lib')
+const log = require('skog')
 
-async function rootPage(req, res) {
-  res.render("root", {
+async function rootPage (req, res) {
+  res.render('root', {
     prefix_path: process.env.PROXY_PATH,
     layout: false
-  });
+  })
 }
 
-async function startPage(req, res) {
+async function startPage (req, res) {
   if (!req.body || !req.body.custom_canvas_course_id) {
-    throw new Error();
+    throw new Error()
   }
 
-  res.render("start", {
+  res.render('start', {
     prefix_path: process.env.PROXY_PATH,
     next: `${process.env.PROXY_PATH}/export2`,
     custom_canvas_course_id: req.body.custom_canvas_course_id,
     layout: false
-  });
+  })
 }
 
-async function showForm(req, res) {
-  res.render("form", {
+async function showForm (req, res) {
+  res.render('form', {
     prefix_path: process.env.PROXY_PATH,
     token: req.accessData.token,
     course_id: req.query.course_id,
     layout: false
-  });
+  })
 }
 
-async function submitGrades(req, res) {
+async function submitGrades (req, res) {
   try {
     log.info(
       `Sending grades of course ${req.body.course_id} - assignment ${req.body.canvas_assignment} to Ladok Module ${req.body.ladok_module}`
-    );
+    )
     const result = await sendGradesToLadok(
       req.body.course_id,
       req.body.canvas_assignment,
       req.body.ladok_module,
       req.body.examination_date,
       req.signedCookies.access_data.token
-    );
+    )
 
-    res.send(result);
+    res.send(result)
   } catch (err) {
-    err.name = "ExportError";
-    log.error(err);
-    res.status(500).send({ error: err.message });
+    err.name = 'ExportError'
+    log.error(err)
+    res.status(500).send({ error: err.message })
   }
 }
 
-async function listCourseData(req, res) {
-  const courseId = req.query.course_id;
+async function listCourseData (req, res) {
+  const courseId = req.query.course_id
 
-  log.info(`Fetching data (assignments and modules) of course ${courseId}`);
+  log.info(`Fetching data (assignments and modules) of course ${courseId}`)
 
   const canvasAssignments = await getCanvasAssignments(
     courseId,
     process.env.CANVAS_ADMIN_API_TOKEN
-  );
+  )
 
   const ladokModules = await getLadokModules(
     courseId,
     process.env.CANVAS_ADMIN_API_TOKEN
-  );
+  )
 
   res.send({
     canvasAssignments: canvasAssignments.map(assignment => ({
@@ -80,33 +80,33 @@ async function listCourseData(req, res) {
       name: assignment.name
     })),
     ladokModules
-  });
+  })
 }
 
-async function listGradesData(req, res) {
+async function listGradesData (req, res) {
   const data = await getGrades(
     req.query.course_id,
     req.query.assignment_id,
     req.query.module_id,
     req.accessData.token
-  );
-  res.send(data);
+  )
+  res.send(data)
 }
 
-function handleExportError(err, req, res, next) {
-  if (err.name !== "ExportError") {
-    next(err);
-    return;
+function handleExportError (err, req, res, next) {
+  if (err.name !== 'ExportError') {
+    next(err)
+    return
   }
 
-  res.render("export-error", {
+  res.render('export-error', {
     layout: false,
     summary:
-      err.code === "ladok_error" ? "See the error obtained from Ladok" : "",
+      err.code === 'ladok_error' ? 'See the error obtained from Ladok' : '',
     details: err.message,
     prefix_path: process.env.PROXY_PATH,
     course_id: req.query.course_id
-  });
+  })
 }
 
 module.exports = {
@@ -117,4 +117,4 @@ module.exports = {
   listCourseData,
   listGradesData,
   handleExportError
-};
+}
