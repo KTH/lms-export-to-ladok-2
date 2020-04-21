@@ -29,7 +29,7 @@ async function startPage (req, res) {
 async function showForm (req, res) {
   res.render('form', {
     prefix_path: process.env.PROXY_PATH,
-    token: req.accessData.token,
+    token: req.signedCookies.access_data.token,
     course_id: req.query.course_id,
     layout: false
   })
@@ -54,15 +54,12 @@ async function submitGrades (req, res) {
 
 async function listCourseData (req, res) {
   const courseId = req.signedCookies.access_data.courseId
+  const token = req.signedCookies.access_data.token
 
   log.info(`Fetching data (assignments and modules) of course ${courseId}`)
 
-  const canvasAssignments = await getCanvasAssignments(
-    courseId,
-    req.accessData.token
-  )
-
-  const ladokModules = await getLadokModules(courseId, req.accessData.token)
+  const canvasAssignments = await getCanvasAssignments(courseId, token)
+  const ladokModules = await getLadokModules(courseId, token)
 
   res.send({
     url: `${process.env.CANVAS_HOST}/courses/${courseId}`,
@@ -79,11 +76,14 @@ async function listCourseData (req, res) {
 }
 
 async function listGradesData (req, res) {
+  const courseId = req.signedCookies.access_data.courseId
+  const token = req.signedCookies.access_data.token
+
   const data = await getGrades(
-    req.query.course_id,
+    courseId,
     req.query.assignment_id,
     req.query.module_id,
-    req.accessData.token
+    token
   )
   res.send(data)
 }
