@@ -1,4 +1,4 @@
-# LMS Export to Ladok 2
+# LMS Transfer to Ladok
 
 ## Copyright © 2019, [KTH](https://github.com/kth).
 
