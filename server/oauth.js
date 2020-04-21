@@ -103,12 +103,17 @@ const oauth2 = redirectPath =>
       process.env.PROXY_BASE
     )
 
-    const accessData = await getAccessData(
+    const { token, userId, realUserId } = await getAccessData(
       callbackUrl.toString(),
       req.query.code
     )
 
-    req.accessData = accessData
+    const accessData = {
+      token,
+      userId,
+      realUserId,
+      courseId: req.query.course_id
+    }
     res.cookie('access_data', accessData, { signed: true })
     next()
   }

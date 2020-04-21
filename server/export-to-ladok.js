@@ -36,11 +36,13 @@ async function showForm (req, res) {
 }
 
 async function submitGrades (req, res) {
+  const courseId = req.signedCookies.access_data.courseId
+
   log.info(
-    `Sending grades of course ${req.body.course_id} - assignment ${req.body.canvas_assignment} to Ladok Module ${req.body.ladok_module}`
+    `Sending grades of course ${courseId} - assignment ${req.body.canvas_assignment} to Ladok Module ${req.body.ladok_module}`
   )
   const result = await sendGradesToLadok(
-    req.body.course_id,
+    courseId,
     req.body.canvas_assignment,
     req.body.ladok_module,
     req.body.examination_date,
@@ -51,7 +53,7 @@ async function submitGrades (req, res) {
 }
 
 async function listCourseData (req, res) {
-  const courseId = req.query.course_id
+  const courseId = req.signedCookies.access_data.courseId
 
   log.info(`Fetching data (assignments and modules) of course ${courseId}`)
 
