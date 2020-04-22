@@ -86,7 +86,12 @@ function WizardForm ({
           className='custom-select'
           value={(selectedAssignment && selectedAssignment.id) || ''}
           name='canvas_assignment'
-          onChange={event => setAssignment(event.target.value)}
+          onChange={event =>
+            setAssignment({
+              id: event.target.value,
+              name: event.target.selectedOptions[0].text
+            })
+          }
         >
           <option value='' disabled hidden>
             Select assignment
@@ -109,7 +114,10 @@ function WizardForm ({
                 disabled={!assignment.published}
               >
                 {}
-                {assignment.name}: {assignment.grading_type.replace('_', ' ')}
+                {assignment.name}:{' '}
+                {assignment.grading_title
+                  ? assignment.grading_title
+                  : assignment.grading_type.replace('_', ' ')}
                 {assignment.published ? '' : ' NOT PUBLISHED'}
               </option>
             ))}
@@ -124,7 +132,12 @@ function WizardForm ({
           className='custom-select'
           name='ladok_module'
           value={(selectedModule && selectedModule.id) || ''}
-          onChange={event => setModule(event.target.value)}
+          onChange={event =>
+            setModule({
+              id: event.target.value,
+              name: event.target.selectedOptions[0].text
+            })
+          }
         >
           <option value='' disabled hidden>
             Select Ladok module

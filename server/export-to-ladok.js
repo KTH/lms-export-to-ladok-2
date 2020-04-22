@@ -68,6 +68,7 @@ async function listCourseData (req, res) {
       published: assignment.published,
       muted: assignment.muted,
       grading_type: assignment.grading_type,
+      grading_title: assignment.grading_title,
       id: assignment.id,
       name: assignment.name
     })),

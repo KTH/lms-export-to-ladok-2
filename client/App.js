@@ -22,30 +22,6 @@ function App ({ courseId }) {
   const allModules = data.ladokModules
   const courseUrl = data.url
 
-  function setModuleId (moduleId) {
-    const module = allModules.find(m => m.id === moduleId)
-    setModule(module)
-  }
-
-  function setAssignmentId (assignmentId) {
-    const assignment = allAssignments.find(
-      a => a.id === parseInt(assignmentId, 10)
-    )
-    setAssignment(assignment)
-  }
-
-  if (!selectedModule && allModules.length === 1) {
-    setModuleId(allModules[0].id)
-  }
-
-  if (
-    !examinationDate &&
-    allModules.length === 1 &&
-    allModules[0].examinationDate
-  ) {
-    setExaminationDate(allModules[0].examinationDate)
-  }
-
   if (currentPage === 0) {
     return (
       <h1 className='alert alert-success'>
@@ -59,10 +35,10 @@ function App ({ courseId }) {
         examinationDate={examinationDate}
         setExaminationDate={setExaminationDate}
         selectedModule={selectedModule}
-        setModule={setModuleId}
+        setModule={setModule}
         allModules={allModules}
         selectedAssignment={selectedAssignment}
-        setAssignment={setAssignmentId}
+        setAssignment={setAssignment}
         allAssignments={allAssignments}
         courseUrl={courseUrl}
       />
