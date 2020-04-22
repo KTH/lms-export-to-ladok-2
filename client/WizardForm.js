@@ -114,10 +114,7 @@ function WizardForm ({
                 disabled={!assignment.published}
               >
                 {}
-                {assignment.name}:{' '}
-                {assignment.grading_title
-                  ? assignment.grading_title
-                  : assignment.grading_type.replace('_', ' ')}
+                {assignment.name}: {assignment.grading_type.replace('_', ' ')}
                 {assignment.published ? '' : ' NOT PUBLISHED'}
               </option>
             ))}

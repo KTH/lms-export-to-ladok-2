@@ -88,7 +88,7 @@ async function start () {
     privacy_level: 'public',
     course_navigation: {
       visibility: 'admins',
-      windowTarget: '_blank',
+      windowTarget: '_self',
       text: buttonName,
       default: false,
       enabled: true
