@@ -2,14 +2,12 @@ import React from 'react'
 import { useFetch } from './react-hooks'
 
 function WizardResult ({
-  courseId,
   selectedAssignment,
   selectedModule,
   examinationDate,
   setCurrentPage
 }) {
   const body = {
-    course_id: courseId,
     canvas_assignment: selectedAssignment.id,
     ladok_module: selectedModule.id,
     examination_date: examinationDate

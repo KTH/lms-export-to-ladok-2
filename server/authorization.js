@@ -15,10 +15,7 @@ async function denyActAs (req, res, next) {
 }
 
 async function authorize (req, res, next) {
-  const accessData = req.accessData || req.signedCookies.access_data
-  const courseId = req.query.course_id || req.body.course_id
-
-  req.accessData = accessData
+  const accessData = req.signedCookies.access_data
 
   if (!accessData) {
     throw new ClientError(
@@ -26,6 +23,7 @@ async function authorize (req, res, next) {
       'No access data found in request or cookie.'
     )
   }
+  const courseId = accessData.courseId
 
   try {
     const allowedInLadok = await isAllowed.isAllowedInLadok(

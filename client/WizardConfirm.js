@@ -5,8 +5,7 @@ function WizardConfirm ({
   setCurrentPage,
   selectedAssignment,
   selectedModule,
-  examinationDate,
-  courseId
+  examinationDate
 }) {
   const showTable = selectedAssignment && selectedModule
 
@@ -69,7 +68,6 @@ function WizardConfirm ({
       </div>
       {showTable && (
         <Table
-          course={courseId}
           assignment={selectedAssignment}
           module={selectedModule}
           date={examinationDate}

@@ -59,7 +59,10 @@ if (process.env.NODE_ENV === 'development') {
 router.get('/', rootPage)
 router.post('/export', startPage)
 router.post('/export2', oauth1)
-router.get('/export3', oauth2, authorization.authorize, showForm)
+router.get('/export3', oauth2, function (req, res) {
+  res.redirect('app')
+})
+router.get('/app', authorization.authorize, showForm)
 
 router.get('/_monitor', system.monitor)
 router.get('/_monitor_all', system.monitor)

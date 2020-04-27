@@ -5,10 +5,8 @@ import { useFetch } from './react-hooks'
 import WizardForm from './WizardForm'
 import WizardConfirm from './WizardConfirm'
 
-function App ({ courseId }) {
-  const { loading, error, data } = useFetch(
-    `api/course-info?course_id=${courseId}`
-  )
+function App () {
+  const { loading, error, data } = useFetch(`api/course-info`)
 
   const [selectedAssignment, setAssignment] = useState(null)
   const [selectedModule, setModule] = useState(null)
@@ -74,13 +72,11 @@ function App ({ courseId }) {
         selectedAssignment={selectedAssignment}
         selectedModule={selectedModule}
         examinationDate={examinationDate}
-        courseId={courseId}
       />
     )
   } else if (currentPage === 3) {
     return (
       <WizardResult
-        courseId={courseId}
         selectedAssignment={selectedAssignment}
         selectedModule={selectedModule}
         examinationDate={examinationDate}
