@@ -30,7 +30,6 @@ async function showForm (req, res) {
   res.render('form', {
     prefix_path: process.env.PROXY_PATH,
     token: req.signedCookies.access_data.token,
-    course_id: req.query.course_id,
     layout: false
   })
 }
