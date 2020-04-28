@@ -8,41 +8,24 @@ import WizardConfirm from './WizardConfirm'
 function App () {
   const { loading, error, data } = useFetch(`api/course-info`)
 
-  const [selectedAssignment, setAssignment] = useState(null)
-  const [selectedModule, setModule] = useState(null)
+  const [selectedAssignmentIndex, setAssignment] = useState(-1)
+  const [selectedModuleIndex, setModule] = useState(-1)
   const [currentPage, setCurrentPage] = useState(1)
   const [examinationDate, setExaminationDate] = useState('')
 
   if (loading) return <div className='loader'>Loading...</div>
   if (error) return <div>An error occurred: {error.error}</div>
 
-  const allAssignments = data.canvasAssignments
-  const allModules = data.ladokModules
-  const courseUrl = data.url
+  const allAssignments = data.assignments
+  const allModules = data.modules
 
-  function setModuleId (moduleId) {
-    const module = allModules.find(m => m.id === moduleId)
-    setModule(module)
-  }
-
-  function setAssignmentId (assignmentId) {
-    const assignment = allAssignments.find(
-      a => a.id === parseInt(assignmentId, 10)
-    )
-    setAssignment(assignment)
-  }
-
-  if (!selectedModule && allModules.length === 1) {
-    setModuleId(allModules[0].id)
-  }
-
-  if (
+  /*if (
     !examinationDate &&
     allModules.length === 1 &&
     allModules[0].examinationDate
   ) {
     setExaminationDate(allModules[0].examinationDate)
-  }
+  }*/
 
   if (currentPage === 0) {
     return (
@@ -54,15 +37,17 @@ function App () {
     return (
       <WizardForm
         setCurrentPage={setCurrentPage}
+        //
         examinationDate={examinationDate}
         setExaminationDate={setExaminationDate}
-        selectedModule={selectedModule}
-        setModule={setModuleId}
+        //
+        selectedModule={selectedModuleIndex}
+        setModule={setModule}
         allModules={allModules}
-        selectedAssignment={selectedAssignment}
-        setAssignment={setAssignmentId}
+        //
+        selectedAssignment={selectedAssignmentIndex}
+        setAssignment={setAssignment}
         allAssignments={allAssignments}
-        courseUrl={courseUrl}
       />
     )
   } else if (currentPage === 2) {
