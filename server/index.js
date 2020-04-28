@@ -18,6 +18,7 @@ const {
   handleHtmlErrors,
   handleApiErrors
 } = require('./export-to-ladok')
+const getCourseStructure = require('../lib/get-course-structure')
 const cuid = require('cuid')
 
 const server = express()
@@ -71,7 +72,13 @@ router.use('/api', apiRouter)
 router.use(handleHtmlErrors)
 
 apiRouter.use(authorization.authorize)
-apiRouter.get('/course-info', listCourseData)
+apiRouter.get('/course-info', async function getCourseInfo (req, res) {
+  const token = req.signedCookies.access_data.token
+  const courseId = req.signedCookies.access_data.courseId
+
+  const response = await getCourseStructure(courseId, token)
+  res.send(response)
+})
 apiRouter.get('/table', listGradesData)
 apiRouter.post('/submitGrades', authorization.denyActAs, submitGrades)
 apiRouter.use(handleApiErrors)
