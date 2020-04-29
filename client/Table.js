@@ -18,7 +18,8 @@ function Table ({ course, assignment, module, date }) {
     const isTransferrable =
       student.ladokGradeData.existsAsDraft &&
       student.canvasGrade &&
-      student.canvasGrade !== student.ladokGradeData.letter
+      student.canvasGrade.toUpperCase() !==
+        student.ladokGradeData.letter.toUpperCase()
     studentRows.push({ student, isTransferrable })
   }
   return (
