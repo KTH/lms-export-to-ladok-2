@@ -14,7 +14,7 @@ function useFetchGrades (initialState) {
   const [response, fetch] = useFetch(null, initialState)
 
   function fetchGrades (assignmentId, moduleId) {
-    if (moduleId) {
+    if (moduleId !== -1) {
       fetch({
         url: `api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`
       })
@@ -29,7 +29,6 @@ function useFetchGrades (initialState) {
 function useSubmitGrades (initialState) {
   const [response, fetch] = useFetch(null, initialState)
 
-  // TODO
   function submitGrades (body) {
     fetch({ url: `api/submit-grades`, method: 'POST', body })
   }
@@ -71,11 +70,12 @@ function App () {
   const [submissionResponse, submitGrades] = useSubmitGrades(null)
 
   function previewResult (selection) {
+    console.log(selection)
     const assignmentId = course.data.assignments[selection.assignment].id
     const moduleId =
       course.data.modules.length === 0
         ? null
-        : course.data.modules[selection.module].id
+        : course.data.modules[selection.module].uid
 
     fetchGrades(assignmentId, moduleId)
 
@@ -93,7 +93,7 @@ function App () {
         `
         You are about to transfer grades for:
         Canvas assignment:${selectedAssignment.name}
-        Ladok module: ${selectedModule.name}
+        Ladok module: ${selectedModule.code}
         Examination Date: ${examinationDate}
 
         Do you want to proceed?`
@@ -102,9 +102,10 @@ function App () {
       if (confirm) {
         submitGrades({
           assignmentId: selectedAssignment.id,
-          moduleId: selectedModule.id,
+          moduleId: selectedModule.uid,
           examinationDate
         })
+        setCurrentPage(3)
       }
     } else {
       const confirm = window.confirm(
@@ -121,10 +122,9 @@ function App () {
           assignmentId: selectedAssignment.id,
           examinationDate
         })
+        setCurrentPage(3)
       }
     }
-
-    setCurrentPage(3)
   }
 
   //
@@ -151,14 +151,13 @@ function App () {
         onCancel={() => setCurrentPage(0)}
       />
     )
-  } else if (currentPage === 1 && data.modules.length > 0) {
+  } else if (currentPage === 1 && course.data.modules.length > 0) {
     return (
       <WizardFormWithModule
         options={course.data}
         selection={userSelection}
         onSubmit={selection => {
-          setSelection(selection)
-          setCurrentPage(2)
+          previewResult(selection)
         }}
         onCancel={() => setCurrentPage(0)}
       />
@@ -167,7 +166,7 @@ function App () {
     const origin = course.data.assignments[userSelection.assignment].name
     const destination =
       course.data.modules.length > 0
-        ? course.data.modules[userSelection.module].name
+        ? course.data.modules[userSelection.module].code
         : `${course.data.examinations.length} examinations`
 
     return (
@@ -185,7 +184,7 @@ function App () {
     const origin = course.data.assignments[userSelection.assignment].name
     const destination =
       course.data.modules.length > 0
-        ? course.data.modules[userSelection.module].name
+        ? course.data.modules[userSelection.module].code
         : `${course.data.examinations.length} examinations`
 
     return (
