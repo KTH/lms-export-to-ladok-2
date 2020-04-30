@@ -19,6 +19,8 @@ const {
   handleApiErrors
 } = require('./export-to-ladok')
 const getCourseStructure = require('../lib/get-course-structure')
+const transferExamination = require('../lib/transfer-examination')
+const transferModule = require('../lib/transfer-module')
 const cuid = require('cuid')
 
 const server = express()
@@ -79,7 +81,33 @@ apiRouter.get('/course-info', async function getCourseInfo (req, res) {
   const response = await getCourseStructure(courseId, token)
   res.send(response)
 })
-apiRouter.get('/table', listGradesData)
+apiRouter.get('/table', async function getGrades (req, res) {
+  const token = req.signedCookies.access_data.token
+  const courseId = req.signedCookies.access_data.courseId
+
+  const assignmentId = req.query.assignmentId
+  const moduleId = req.query.moduleId
+
+  if (moduleId) {
+    const result = await transferModule.getResults(
+      courseId,
+      moduleId,
+      assignmentId,
+      token
+    )
+
+    res.send(result)
+  } else {
+    const result = await transferExamination.getResults(
+      courseId,
+      assignmentId,
+      token
+    )
+
+    res.send(result)
+  }
+})
+
 apiRouter.post('/submitGrades', authorization.denyActAs, submitGrades)
 apiRouter.use(handleApiErrors)
 
