@@ -2,30 +2,23 @@ import { hot } from 'react-hot-loader/root'
 import React, { useState } from 'react'
 import WizardResult from './WizardResult'
 import { useFetch } from './react-hooks'
-import WizardForm from './WizardForm'
+import WizardFormWithoutModule from './wizard-form-without-module'
+import WizardFormWithModule from './wizard-form-with-module'
 import WizardConfirm from './WizardConfirm'
 
 function App () {
   const { loading, error, data } = useFetch(`api/course-info`)
 
-  const [selectedAssignmentIndex, setAssignment] = useState(-1)
-  const [selectedModuleIndex, setModule] = useState(-1)
+  const [userSelection, setSelection] = useState({
+    assignment: -1,
+    module: -1,
+    examinationDate: ''
+  })
+
   const [currentPage, setCurrentPage] = useState(1)
-  const [examinationDate, setExaminationDate] = useState('')
 
   if (loading) return <div className='loader'>Loading...</div>
   if (error) return <div>An error occurred: {error.error}</div>
-
-  const allAssignments = data.assignments
-  const allModules = data.modules
-
-  /*if (
-    !examinationDate &&
-    allModules.length === 1 &&
-    allModules[0].examinationDate
-  ) {
-    setExaminationDate(allModules[0].examinationDate)
-  }*/
 
   if (currentPage === 0) {
     return (
@@ -33,21 +26,22 @@ function App () {
         Transfer cancelled. You can safely leave this page.
       </h1>
     )
-  } else if (currentPage === 1) {
+  } else if (currentPage === 1 && data.examinations.length > 0) {
     return (
-      <WizardForm
-        setCurrentPage={setCurrentPage}
-        //
-        examinationDate={examinationDate}
-        setExaminationDate={setExaminationDate}
-        //
-        selectedModule={selectedModuleIndex}
-        setModule={setModule}
-        allModules={allModules}
-        //
-        selectedAssignment={selectedAssignmentIndex}
-        setAssignment={setAssignment}
-        allAssignments={allAssignments}
+      <WizardFormWithoutModule
+        options={data}
+        selection={userSelection}
+        onSubmit={selection => setSelection(selection)}
+        onCancel={() => setCurrentPage(0)}
+      />
+    )
+  } else if (currentPage === 1 && data.modules.length > 0) {
+    return (
+      <WizardFormWithModule
+        options={data}
+        selection={userSelection}
+        onSubmit={selection => setSelection(selection)}
+        onCancel={() => setCurrentPage(0)}
       />
     )
   } else if (currentPage === 2) {

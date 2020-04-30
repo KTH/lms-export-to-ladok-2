@@ -1,29 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AssignmentSelector from './assignment-selector'
-import ModuleSelector from './module-selector'
+import ExaminationList from './examination-list'
 
-function WizardForm ({
-  setCurrentPage,
-  examinationDate,
-  setExaminationDate,
-  selectedModule,
-  setModule,
-  allModules,
-  selectedAssignment,
-  setAssignment,
-  allAssignments
-}) {
+function NextButton ({ assignment, examinationDate, onClick }) {
   let disabled = false
   let title = ''
   let buttonClassNames = 'btn btn-next btn-success grid-col-3'
 
-  if (selectedAssignment === -1) {
+  if (assignment === -1) {
     disabled = true
     title = 'Select an assignment in Canvas first'
-    buttonClassNames += ' disabled'
-  } else if (selectedModule === -1) {
-    disabled = true
-    title = 'Select a module in Ladok first'
     buttonClassNames += ' disabled'
   } else if (!examinationDate) {
     disabled = true
@@ -31,44 +17,56 @@ function WizardForm ({
     buttonClassNames += ' disabled'
   }
 
-  const nextButton = (
+  return (
     <button
       className={buttonClassNames}
       disabled={disabled}
       title={title}
-      onClick={() => setCurrentPage(2)}
+      onClick={onClick}
     >
       Students
     </button>
   )
+}
+
+export default function WizardForm ({
+  options,
+  selection,
+  onSubmit,
+  onCancel
+}) {
+  const [assignment, setAssignment] = useState(selection.assignment)
+  const [examinationDate, setExaminationDate] = useState(
+    selection.examinationDate
+  )
+
+  function handleNextClick () {
+    onSubmit({
+      assignment,
+      examinationDate
+    })
+  }
 
   return (
     <div className='form-group form-select'>
       <h1>Select assignment and date (Step 1 of 2)</h1>
       <p>
-        To be able to transfer grades to from Canvas to Ladok, you need to map a
-        Canvas assignment to a Ladok module. Please select both a Canvas
-        assignment as source, a Ladok module as target and an examination date
-        for the grades to be transfered, before you can proceed.
+        To be able to transfer grades from Canvas to Ladok, you must choose the
+        Canvas assignment that contains the grades you want to transfer. Grades
+        will be transfered to the following examination rounds in Ladok:
       </p>
+      <ExaminationList list={options.examinations} />
+
       <h2>Canvas assignment</h2>
       <p>
         Note that only letter grades will be transfered to Ladok (A-F & P/F)
       </p>
       <AssignmentSelector
-        assignments={allAssignments}
+        assignments={options.assignments}
         onChange={setAssignment}
-        value={selectedAssignment}
+        value={assignment}
       />
 
-      <h2>Ladok Module</h2>
-      <p>To which Ladok module do you want the grades to be transferred?</p>
-
-      <ModuleSelector
-        modules={allModules}
-        onChange={setModule}
-        value={selectedModule}
-      />
       <h2>Examination Date</h2>
       <p>
         When transferring to Ladok, all affected grades will receive the same
@@ -86,14 +84,17 @@ function WizardForm ({
       <div className='button-section'>
         <button
           className='btn btn-secondary grid-col-2'
-          onClick={event => setCurrentPage(0)}
+          onClick={() => onCancel()}
         >
           Cancel
         </button>
-        {nextButton}
+        <NextButton
+          assignment={assignment}
+          module={module}
+          examinationDate={examinationDate}
+          onClick={handleNextClick}
+        />
       </div>
     </div>
   )
 }
-
-export default WizardForm
