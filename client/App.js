@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader/root'
 import React, { useState } from 'react'
-import WizardResult from './WizardResult'
+import WizardResult from './wizard-result'
 import { useFetch } from './react-hooks'
 import WizardFormWithoutModule from './wizard-form-without-module'
 import WizardFormWithModule from './wizard-form-with-module'
@@ -182,7 +182,21 @@ function App () {
       />
     )
   } else if (currentPage === 3) {
-    return <div>Lololololo</div>
+    const origin = course.data.assignments[userSelection.assignment].name
+    const destination =
+      course.data.modules.length > 0
+        ? course.data.modules[userSelection.module].name
+        : `${course.data.examinations.length} examinations`
+
+    return (
+      <WizardResult
+        origin={origin}
+        destination={destination}
+        examinationDate={userSelection.examinationDate}
+        onContinue={() => setCurrentPage(1)}
+        submissionResponse={submissionResponse}
+      />
+    )
   }
 }
 
