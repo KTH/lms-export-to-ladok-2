@@ -108,7 +108,39 @@ apiRouter.get('/table', async function getGrades (req, res) {
   }
 })
 
-apiRouter.post('/submitGrades', authorization.denyActAs, submitGrades)
+apiRouter.post(
+  '/submit-grades',
+  authorization.denyActAs,
+  async function submitGrades (req, res) {
+    const token = req.signedCookies.access_data.token
+    const courseId = req.signedCookies.access_data.courseId
+
+    const assignmentId = req.body.assignmentId
+    const moduleId = req.body.moduleId
+    const examinationDate = req.body.examinationDate
+
+    if (moduleId) {
+      const result = await transferModule.transferResults(
+        courseId,
+        moduleId,
+        assignmentId,
+        examinationDate,
+        token
+      )
+
+      res.send(result)
+    } else {
+      const result = await transferExamination.transferResults(
+        courseId,
+        assignmentId,
+        examinationDate,
+        token
+      )
+
+      res.send(result)
+    }
+  }
+)
 apiRouter.use(handleApiErrors)
 
 server.use(PROXY_PATH, router)

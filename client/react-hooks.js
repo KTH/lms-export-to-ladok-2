@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
-export function useFetch (initialUrl, initialData, method, body) {
-  const [url, setUrl] = useState(initialUrl)
+export function useFetch (initialParams, initialData) {
+  const [params, setParams] = useState(initialParams)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState(initialData)
@@ -11,16 +11,16 @@ export function useFetch (initialUrl, initialData, method, body) {
       setError(false)
       setLoading(true)
 
-      const options = { method: method || 'GET' }
-      if (body) {
-        options.body = JSON.stringify(body)
+      const options = { method: params.method || 'GET' }
+      if (params.body) {
+        options.body = JSON.stringify(params.body)
         options.headers = {
           'Content-Type': 'application/json'
         }
       }
 
       try {
-        const response = await window.fetch(url, options)
+        const response = await window.fetch(params.url, options)
 
         if (response.ok) {
           const data = await response.json()
@@ -36,10 +36,10 @@ export function useFetch (initialUrl, initialData, method, body) {
       setLoading(false)
     }
 
-    if (url) {
+    if (params && params.url) {
       fetchData()
     }
-  }, [url])
+  }, [params])
 
-  return [{ data, loading, error }, setUrl]
+  return [{ data, loading, error }, setParams]
 }

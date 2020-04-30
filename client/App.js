@@ -7,7 +7,7 @@ import WizardFormWithModule from './wizard-form-with-module'
 import WizardPreview from './wizard-preview'
 
 function useFetchCourseInfo (initialState) {
-  return useFetch('api/course-info', initialState)[0]
+  return useFetch({ url: 'api/course-info' }, initialState)[0]
 }
 
 function useFetchGrades (initialState) {
@@ -15,9 +15,11 @@ function useFetchGrades (initialState) {
 
   function fetchGrades (assignmentId, moduleId) {
     if (moduleId) {
-      fetch(`api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`)
+      fetch({
+        url: `api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`
+      })
     } else {
-      fetch(`api/table?assignmentId=${assignmentId}`)
+      fetch({ url: `api/table?assignmentId=${assignmentId}` })
     }
   }
 
@@ -28,8 +30,8 @@ function useSubmitGrades (initialState) {
   const [response, fetch] = useFetch(null, initialState)
 
   // TODO
-  function submitGrades () {
-    console.log('Thank you!!!')
+  function submitGrades (body) {
+    fetch({ url: `api/submit-grades`, method: 'POST', body })
   }
 
   return [response, submitGrades]
@@ -97,7 +99,13 @@ function App () {
         Do you want to proceed?`
       )
 
-      if (!confirm) return
+      if (confirm) {
+        submitGrades({
+          assignmentId: selectedAssignment.id,
+          moduleId: selectedModule.id,
+          examinationDate
+        })
+      }
     } else {
       const confirm = window.confirm(
         `
@@ -108,7 +116,12 @@ function App () {
         Do you want to proceed?`
       )
 
-      if (!confirm) return
+      if (confirm) {
+        submitGrades({
+          assignmentId: selectedAssignment.id,
+          examinationDate
+        })
+      }
     }
 
     setCurrentPage(3)
@@ -169,14 +182,7 @@ function App () {
       />
     )
   } else if (currentPage === 3) {
-    return (
-      <WizardResult
-        selectedAssignment={selectedAssignment}
-        selectedModule={selectedModule}
-        examinationDate={examinationDate}
-        setCurrentPage={setCurrentPage}
-      />
-    )
+    return <div>Lololololo</div>
   }
 }
 
