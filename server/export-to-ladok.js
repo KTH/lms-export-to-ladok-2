@@ -1,17 +1,4 @@
-const {
-  getCanvasAssignments,
-  getLadokModules,
-  sendGradesToLadok,
-  getGrades
-} = require('../lib')
 const log = require('skog')
-
-async function rootPage (req, res) {
-  res.render('root', {
-    prefix_path: process.env.PROXY_PATH,
-    layout: false
-  })
-}
 
 async function startPage (req, res) {
   if (!req.body || !req.body.custom_canvas_course_id) {
@@ -32,58 +19,6 @@ async function showForm (req, res) {
     token: req.signedCookies.access_data.token,
     layout: false
   })
-}
-
-async function submitGrades (req, res) {
-  const courseId = req.signedCookies.access_data.courseId
-
-  log.info(
-    `Sending grades of course ${courseId} - assignment ${req.body.canvas_assignment} to Ladok Module ${req.body.ladok_module}`
-  )
-  const result = await sendGradesToLadok(
-    courseId,
-    req.body.canvas_assignment,
-    req.body.ladok_module,
-    req.body.examination_date,
-    req.signedCookies.access_data.token
-  )
-
-  res.send(result)
-}
-
-async function listCourseData (req, res) {
-  const courseId = req.signedCookies.access_data.courseId
-  const token = req.signedCookies.access_data.token
-
-  log.info(`Fetching data (assignments and modules) of course ${courseId}`)
-
-  const canvasAssignments = await getCanvasAssignments(courseId, token)
-  const ladokModules = await getLadokModules(courseId, token)
-
-  res.send({
-    url: `${process.env.CANVAS_HOST}/courses/${courseId}`,
-    canvasAssignments: canvasAssignments.map(assignment => ({
-      published: assignment.published,
-      muted: assignment.muted,
-      grading_type: assignment.grading_type,
-      id: assignment.id,
-      name: assignment.name
-    })),
-    ladokModules
-  })
-}
-
-async function listGradesData (req, res) {
-  const courseId = req.signedCookies.access_data.courseId
-  const token = req.signedCookies.access_data.token
-
-  const data = await getGrades(
-    courseId,
-    req.query.assignment_id,
-    req.query.module_id,
-    token
-  )
-  res.send(data)
 }
 
 function handleHtmlErrors (err, req, res, next) {
@@ -112,12 +47,8 @@ function handleApiErrors (err, req, res, next) {
 }
 
 module.exports = {
-  rootPage,
   startPage,
   showForm,
-  submitGrades,
-  listCourseData,
-  listGradesData,
   handleHtmlErrors,
   handleApiErrors
 }
