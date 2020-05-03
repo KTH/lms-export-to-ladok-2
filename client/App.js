@@ -132,7 +132,7 @@ function App () {
   //
 
   if (course.loading) return <div className='loader'>Loading...</div>
-  if (course.error) return <div>An error occurred: {error.error}</div>
+  if (course.error) return <div>An error occurred: {course.error}</div>
 
   if (currentPage === 0) {
     return (

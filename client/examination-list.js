@@ -19,8 +19,8 @@ function Item ({ examination }) {
 export default function ExaminationList ({ list }) {
   return (
     <ul>
-      {list.map(item => (
-        <Item examination={item} />
+      {list.map((item, i) => (
+        <Item examination={item} key={i} />
       ))}
     </ul>
   )
