@@ -19,7 +19,7 @@ export default function AssignmentSelector ({ assignments, onChange, value }) {
           want to use this assignment, you should{' '}
           <a href={selectedAssignment.link} target='_top'>
             edit the assignment
-          </a>{' '}
+          </a>
           , change "Display Grade as" to letter grade, and choose either the
           <strong>"A-F grading scheme (including Fx)"</strong> or the{' '}
           <strong>"Pass/Fail grading scheme 80%".</strong>
