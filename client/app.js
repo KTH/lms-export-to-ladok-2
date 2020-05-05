@@ -14,7 +14,7 @@ function useFetchGrades (initialState) {
   const [response, fetch] = useFetch(null, initialState)
 
   function fetchGrades (assignmentId, moduleId) {
-    if (moduleId !== -1) {
+    if (moduleId) {
       fetch({
         url: `api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`
       })
