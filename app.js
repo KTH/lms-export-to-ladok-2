@@ -6,7 +6,6 @@ require('skog/bunyan').createLogger({
   serializers: require('bunyan').stdSerializers,
   level: process.env.LOG_LEVEL || 'info'
 })
-require('./lib/ladok/api').init()
 require('./lib/mongo').init()
 
 const skog = require('skog')

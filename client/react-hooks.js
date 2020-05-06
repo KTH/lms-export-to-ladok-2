@@ -1,43 +1,45 @@
 import { useState, useEffect } from 'react'
 
-export function useFetch (url, method, body) {
+export function useFetch (initialParams, initialData) {
+  const [params, setParams] = useState(initialParams)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [data, setData] = useState(null)
-
-  async function fetchData () {
-    setLoading(true)
-    const options = { method: method || 'GET' }
-    if (body) {
-      options.body = JSON.stringify(body)
-      options.headers = {
-        'Content-Type': 'application/json'
-      }
-    }
-    let isOk
-    window
-      .fetch(url, options)
-      .then(r => {
-        isOk = r.ok
-        return r
-      })
-      .then(r => r.json())
-      .then(body => {
-        if (isOk) {
-          setData(body)
-        } else {
-          setError(body)
-        }
-      })
-      .catch(r => {
-        setError(r)
-      })
-      .finally(r => setLoading(false))
-  }
+  const [data, setData] = useState(initialData)
 
   useEffect(() => {
-    fetchData()
-  }, [url])
+    async function fetchData () {
+      setError(false)
+      setLoading(true)
 
-  return { loading, error, data }
+      const options = { method: params.method || 'GET' }
+      if (params.body) {
+        options.body = JSON.stringify(params.body)
+        options.headers = {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      try {
+        const response = await window.fetch(params.url, options)
+
+        if (response.ok) {
+          const data = await response.json()
+          setData(data)
+        } else {
+          const error = await response.json()
+          setError(error)
+        }
+      } catch (err) {
+        setError(err)
+      }
+
+      setLoading(false)
+    }
+
+    if (params && params.url) {
+      fetchData()
+    }
+  }, [params])
+
+  return [{ data, loading, error }, setParams]
 }

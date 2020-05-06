@@ -1,5 +1,5 @@
 import React from 'react'
-import App from './App'
+import App from './app'
 import { render } from 'react-dom'
 
-render(<App courseId={window.__COURSE_ID__} />, document.getElementById('root'))
+render(<App />, document.getElementById('root'))
