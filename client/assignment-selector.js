@@ -4,7 +4,7 @@ export default function AssignmentSelector ({ assignments, onChange, value }) {
   let assignmentWarning = <p />
 
   if (value !== -1) {
-    const selectedAssignment = assignments[value]
+    const selectedAssignment = assignments.find(a => a.id === value)
 
     if (selectedAssignment.type !== 'letter_grade') {
       assignmentWarning = (
@@ -35,13 +35,14 @@ export default function AssignmentSelector ({ assignments, onChange, value }) {
           className='custom-select'
           value={value}
           name='canvas_assignment'
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(parseInt(event.target.value, 10))}
         >
           <option value={-1} disabled hidden>
             Select assignment
           </option>
           {// sort letter grade first, then the rest grouped by grading type
           assignments
+            .slice()
             .sort((a, b) => {
               if (a.type === 'letter_grade') {
                 return -1
@@ -51,8 +52,12 @@ export default function AssignmentSelector ({ assignments, onChange, value }) {
                 return a.name.localeCompare(b.name)
               }
             })
-            .map((assignment, i) => (
-              <option key={i} value={i} disabled={!assignment.published}>
+            .map(assignment => (
+              <option
+                key={assignment.id}
+                value={assignment.id}
+                disabled={!assignment.published}
+              >
                 {assignment.name}: {assignment.type.replace('_', ' ')}
                 {assignment.published ? '' : ' NOT PUBLISHED'}
               </option>
