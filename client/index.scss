@@ -62,37 +62,6 @@ body {
   place-self: flex-end;
 }
 
-table {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-  width: 100%;
-}
-
-table thead {
-  /* head takes the height it requires,
-  and it's not scaled when table is resized */
-  flex: 0 0 auto;
-  width: calc(100% - 0.9em);
-}
-
-table tbody {
-  /* body takes all the remaining available space */
-  flex: 1 1 auto;
-  display: block;
-  overflow-y: scroll;
-}
-
-table tbody tr {
-  width: 100%;
-}
-
-table thead,
-table tbody tr {
-  display: table;
-  table-layout: fixed;
-}
-
 #root {
   display: flex;
   flex-flow: column;
@@ -110,20 +79,13 @@ table tbody tr {
 
 .table-container {
   overflow: hidden;
-}
-
-table {
-  margin-bottom: 14px;
-  margin: 0;
-}
-
-caption {
-  padding: 0em;
+  padding-bottom: 10em;
 }
 
 table caption {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 400;
 }
 
 h2 {

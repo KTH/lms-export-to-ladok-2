@@ -14,10 +14,10 @@ function Table ({ loading, error, data: table }) {
 
   return (
     <div className='table-container'>
-      <table border='1'>
+      <table>
         <caption>
           Can export {sortedList.filter(row => row.transferrable).length}/
-          {sortedList.length} grades:
+          {sortedList.length} grades
         </caption>
         <thead>
           <tr>
