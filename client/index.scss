@@ -38,6 +38,15 @@ body {
   justify-content: space-between;
 }
 
+.button-section-container {
+  width: 100%;
+  padding: 0 45px;
+  padding-top: 0px;
+  padding-bottom: 2em;
+  box-sizing: border-box;
+  background: $white;
+}
+
 .grid-col-1 {
   grid-column: 1;
   place-self: flex-start;
@@ -100,8 +109,6 @@ table tbody tr {
 }
 
 .table-container {
-  height: 10em;
-  flex: 1 1 10em;
   overflow: hidden;
 }
 

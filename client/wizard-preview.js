@@ -3,24 +3,26 @@ import Table from './table'
 
 function TableFooter ({ onBack, onSubmit, onCancel }) {
   return (
-    <div className='button-section'>
-      <button
-        type='button'
-        className='btn btn-back btn-secondary grid-col-1'
-        onClick={onBack}
-      >
-        Assignments and Date
-      </button>
-      <button
-        type='button'
-        className='btn btn-secondary grid-col-2'
-        onClick={onCancel}
-      >
-        Cancel
-      </button>
-      <button className='btn btn-primary grid-col-3' onClick={onSubmit}>
-        Transfer to Ladok
-      </button>
+    <div className='fixed-bottom button-section-container'>
+      <div className='button-section'>
+        <button
+          type='button'
+          className='btn btn-back btn-secondary grid-col-1'
+          onClick={onBack}
+        >
+          Assignments and Date
+        </button>
+        <button
+          type='button'
+          className='btn btn-secondary grid-col-2'
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+        <button className='btn btn-primary grid-col-3' onClick={onSubmit}>
+          Transfer to Ladok
+        </button>
+      </div>
     </div>
   )
 }
