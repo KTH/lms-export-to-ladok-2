@@ -9,8 +9,16 @@ body {
   background: $white;
   color: $black;
   height: 100%;
-  margin: 0;
-  padding: $spacing;
+}
+
+@media (min-width: 992px) {
+  body header .container-fluid .container {
+    padding-bottom: 20px;
+  }
+}
+
+.c2l2 {
+  padding: 20px 15px 0;
 }
 
 .start_c2l2_form {
@@ -179,10 +187,14 @@ h2 {
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.fadein{
+.fadein {
   animation: fadein 2s;
 }

@@ -5,37 +5,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Start page</title>
+  <title>Transfer to Ladok | KTH</title>
   <link rel="stylesheet" type="text/css" href="{{prefix_path}}/dist/index.css">
 </head>
 
 <body>
-  <form class="start_c2l2_form" action="{{next}}" method="POST">
-    <div>
-      <h1>KTH Transfer to Ladok</h1>
-      <p>
-        This application has been developed with the intent to enable a secure digital transfer of grades from Canvas Gradebook to
-        Ladok and hopefully also reduce the amount of manual grade administration.</p>
-      <h2>How do I start using the application?</h2>
-      <p>If you have not used this application before, please read the instructions for Canvas Gradebook and this
-        application in <a href="https://kth.instructure.com/courses/1/pages/step-7-information-grades#export-to-ladok" target="_blank" rel="noreferrer noopener">Canvas@KTH</a>
-        carefully. Click the button at the bottom of this page to launch the application.</p>
-      <h2>Important to notice</h2>
-      <ol>
-        <li>The application can transfer letter grades from a column in Canvas Gradebook to draft status for a Ladok
-          module (i.e. not the final grade of the course). In the next step, you will have to select which column in
-          Canvas Gradebook that should be transferred to which Ladok module. Make sure that the column in Canvas
-          Gradebook contains the allowed letter grades for the Ladok module.</li>
-        <li>Grades that have been marked as ready and certified will not be transferred to Ladok, except for F or Fx. Be
-          wary when you want to transfer grades for the second time (e.g. after a re-exam) for a Ladok module.</li>
-        <li>If this course room contains multiple course rounds, only the grades for the students of the main course round can be transferred.</li>
-      </ol>
-      <p><em>Is something not working as expected? <a
-        href="mailto:it-support@kth.se">Contact IT support!</a></em></p>
-      <input type="hidden" name="custom_canvas_course_id" value="{{custom_canvas_course_id}}">
+  <header role="banner">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="header-container__top">
+          <figure class="block figure defaultTheme mainLogo" data-cid="1.77257" lang="sv-SE">
+            <img class="figure-img img-fluid" src="//kth.se/polopoly_fs/1.77257.1550147376!/KTH_Logotyp_RGB_2013-2.svg" alt="KTH logotype" width="70" height="70">
+          </figure>
+          <h1 class="block siteName">Transfer to Ladok</h1>
+        </div>
+      </div>
     </div>
-    <input type="submit" class="btn btn-primary start_C2L2_button" value="Start the application"></input>
-  </form>
+    <div id="gradientBorder"></div>
+  </header>
+  <div class="container main">
+    <div class="c2l2">
+      <form class="start_c2l2_form" action="{{next}}" method="POST">
+        <div>
+          <h1>KTH Transfer to Ladok</h1>
+          <p>
+            This application has been developed with the intent to enable a secure digital transfer of grades from Canvas Gradebook to
+            Ladok and hopefully also reduce the amount of manual grade administration.</p>
+          <h2>How do I start using the application?</h2>
+          <p>If you have not used this application before, please read the instructions for Canvas Gradebook and this
+            application in <a href="https://kth.instructure.com/courses/1/pages/step-7-information-grades#export-to-ladok" target="_blank" rel="noreferrer noopener">Canvas@KTH</a>
+            carefully. Click the button at the bottom of this page to launch the application.</p>
+          <h2>Important to notice</h2>
+          <ol>
+            <li>The application can transfer letter grades from a column in Canvas Gradebook to draft status for a Ladok
+              module (i.e. not the final grade of the course). In the next step, you will have to select which column in
+              Canvas Gradebook that should be transferred to which Ladok module. Make sure that the column in Canvas
+              Gradebook contains the allowed letter grades for the Ladok module.</li>
+            <li>Grades that have been marked as ready and certified will not be transferred to Ladok, except for F or Fx. Be
+              wary when you want to transfer grades for the second time (e.g. after a re-exam) for a Ladok module.</li>
+            <li>If this course room contains multiple course rounds, only the grades for the students of the main course round can be transferred.</li>
+          </ol>
+          <p><em>Is something not working as expected? <a
+            href="mailto:it-support@kth.se">Contact IT support!</a></em></p>
+          <input type="hidden" name="custom_canvas_course_id" value="{{custom_canvas_course_id}}">
+        </div>
+        <input type="submit" class="btn btn-primary start_C2L2_button" value="Start the application"></input>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>
