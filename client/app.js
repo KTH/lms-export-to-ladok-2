@@ -70,8 +70,7 @@ function App () {
   const [submissionResponse, submitGrades] = useSubmitGrades(null)
 
   function previewResult (selection) {
-    console.log(selection)
-    const assignmentId = course.data.assignments[selection.assignment].id
+    const assignmentId = selection.assignment
     const moduleId =
       course.data.modules.length === 0
         ? null
@@ -84,7 +83,9 @@ function App () {
   }
 
   function confirmTransfer () {
-    const selectedAssignment = course.data.assignments[userSelection.assignment]
+    const selectedAssignment = course.data.assignments.find(
+      a => a.id === userSelection.assignment
+    )
     const examinationDate = userSelection.examinationDate
 
     if (course.data.modules.length > 0) {
@@ -172,7 +173,9 @@ function App () {
       />
     )
   } else if (currentPage === 2) {
-    const origin = course.data.assignments[userSelection.assignment].name
+    const origin = course.data.assignments.find(
+      a => a.id === userSelection.assignment
+    ).name
     const destination =
       course.data.modules.length > 0
         ? course.data.modules[userSelection.module].code
@@ -190,7 +193,9 @@ function App () {
       />
     )
   } else if (currentPage === 3) {
-    const origin = course.data.assignments[userSelection.assignment].name
+    const origin = course.data.assignments.find(
+      a => a.id === userSelection.assignment
+    ).name
     const destination =
       course.data.modules.length > 0
         ? course.data.modules[userSelection.module].code
