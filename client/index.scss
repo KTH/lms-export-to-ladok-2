@@ -88,6 +88,11 @@ table caption {
   font-weight: 400;
 }
 
+table thead tr th,
+table tbody tr td {
+  padding: 4px 8px;
+}
+
 h2 {
   margin: 0px;
 }
