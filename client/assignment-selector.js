@@ -4,7 +4,7 @@ export default function AssignmentSelector ({ assignments, onChange, value }) {
   let assignmentWarning = <p />
 
   if (value !== -1) {
-    const selectedAssignment = assignments.find(a => a.id === value, 10)
+    const selectedAssignment = assignments.find(a => a.id === value)
 
     if (selectedAssignment.type !== 'letter_grade') {
       assignmentWarning = (
