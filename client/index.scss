@@ -9,8 +9,16 @@ body {
   background: $white;
   color: $black;
   height: 100%;
-  margin: 0;
-  padding: $spacing;
+}
+
+@media (min-width: 992px) {
+  body header .container-fluid .container {
+    padding-bottom: 20px;
+  }
+}
+
+.c2l2 {
+  padding: 20px 15px 0;
 }
 
 .start_c2l2_form {
@@ -30,6 +38,13 @@ body {
   justify-content: space-between;
 }
 
+.button-section-container {
+  width: 100%;
+  padding-bottom: 2em;
+  box-sizing: border-box;
+  background: $white;
+}
+
 .grid-col-1 {
   grid-column: 1;
   place-self: flex-start;
@@ -43,37 +58,6 @@ body {
 .grid-col-3 {
   grid-column: 3;
   place-self: flex-end;
-}
-
-table {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-  width: 100%;
-}
-
-table thead {
-  /* head takes the height it requires,
-  and it's not scaled when table is resized */
-  flex: 0 0 auto;
-  width: calc(100% - 0.9em);
-}
-
-table tbody {
-  /* body takes all the remaining available space */
-  flex: 1 1 auto;
-  display: block;
-  overflow-y: scroll;
-}
-
-table tbody tr {
-  width: 100%;
-}
-
-table thead,
-table tbody tr {
-  display: table;
-  table-layout: fixed;
 }
 
 #root {
@@ -92,23 +76,19 @@ table tbody tr {
 }
 
 .table-container {
-  height: 10em;
-  flex: 1 1 10em;
   overflow: hidden;
-}
-
-table {
-  margin-bottom: 14px;
-  margin: 0;
-}
-
-caption {
-  padding: 0em;
+  padding-bottom: 10em;
 }
 
 table caption {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 400;
+}
+
+table thead tr th,
+table tbody tr td {
+  padding: 4px 8px;
 }
 
 h2 {
@@ -179,10 +159,14 @@ h2 {
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.fadein{
+.fadein {
   animation: fadein 2s;
 }

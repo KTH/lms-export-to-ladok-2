@@ -128,6 +128,15 @@ function App () {
     }
   }
 
+  function startOver () {
+    setSelection({
+      assignment: -1,
+      module: -1,
+      examinationDate: ''
+    })
+    setCurrentPage(1)
+  }
+
   //
   // From here everything is visualization
   //
@@ -197,7 +206,7 @@ function App () {
         origin={origin}
         destination={destination}
         examinationDate={userSelection.examinationDate}
-        onContinue={() => setCurrentPage(1)}
+        onContinue={startOver}
         submissionResponse={submissionResponse}
       />
     )

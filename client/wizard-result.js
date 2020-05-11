@@ -36,10 +36,10 @@ function WizardResult ({
         </div>
         <div className='button-section'>
           <button
-            className='btn btn-success grid-col-3'
+            className='btn btn-primary grid-col-3'
             onClick={() => onContinue()}
           >
-            Done
+            Start over
           </button>
         </div>
       </>
@@ -64,10 +64,10 @@ function WizardResult ({
       <p>The rest of the grading process is carried out in Ladok</p>
       <div className='button-section'>
         <button
-          className='btn btn-success grid-col-3'
+          className='btn btn-primary grid-col-3'
           onClick={() => onContinue()}
         >
-          Done
+          Transfer more results
         </button>
       </div>
     </>
