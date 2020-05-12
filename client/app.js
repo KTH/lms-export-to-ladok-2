@@ -211,6 +211,15 @@ function App () {
       />
     )
   }
+  return (
+    <div className='alert alert-danger fadein' aria-live='polite' role='alert'>
+      <h2>Transfer could not be initiated</h2>
+      <p>
+        If the current canvas room should be transferrable, contact
+        it-support@kth.se for assistance.
+      </p>
+    </div>
+  )
 }
 
 export default hot(App)
