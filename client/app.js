@@ -210,14 +210,16 @@ function App () {
         submissionResponse={submissionResponse}
       />
     )
-  } else {
-    return (
-      <h1 className='alert alert-danger'>
-        Transfer could not be initiated. If the current canvas room should be
-        transferrable, contact it-support@kth.se for assistance.
-      </h1>
-    )
   }
+  return (
+    <div className='alert alert-danger fadein' aria-live='polite' role='alert'>
+      <h2>Transfer could not be initiated</h2>
+      <p>
+        If the current canvas room should be transferrable, contact
+        it-support@kth.se for assistance.
+      </p>
+    </div>
+  )
 }
 
 export default hot(App)
