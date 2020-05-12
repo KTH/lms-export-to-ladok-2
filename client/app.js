@@ -210,6 +210,13 @@ function App () {
         submissionResponse={submissionResponse}
       />
     )
+  } else {
+    return (
+      <h1 className='alert alert-danger'>
+        Transfer could not be initiated. If the current canvas room should be
+        transferrable, contact it-support@kth.se for assistance.
+      </h1>
+    )
   }
 }
 
