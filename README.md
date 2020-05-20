@@ -4,4 +4,4 @@
 
 Send results of an assignment in Canvas LMS as module in Ladok
 
-test
+testing
