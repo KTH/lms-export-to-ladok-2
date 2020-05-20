@@ -1,10 +1,8 @@
 const log = require('skog')
 const isAllowed = require('../lib/is-allowed')
-const {
-  ClientError
-} = require('../lib/errors')
+const { ClientError } = require('../lib/errors')
 
-async function denyActAs(req, res, next) {
+async function denyActAs (req, res, next) {
   const accessData = req.accessData || req.signedCookies.access_data
 
   if (accessData.realUserId && accessData.userId !== accessData.realUserId) {
@@ -16,7 +14,7 @@ async function denyActAs(req, res, next) {
   next()
 }
 
-async function authorize(req, res, next) {
+async function authorize (req, res, next) {
   const accessData = req.signedCookies.access_data
 
   if (!accessData) {

@@ -25,11 +25,20 @@ server.engine('handlebars', expressHandlebars())
 server.set('view engine', 'handlebars')
 
 server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: true }))
+server.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
 server.use(cookieParser(process.env.COOKIE_SIGNATURE_SECRET))
 
 server.use((req, res, next) => {
-  log.child({ req_id: cuid() }, next)
+  log.child(
+    {
+      req_id: cuid()
+    },
+    next
+  )
 })
 
 const PROXY_PATH = process.env.PROXY_PATH || ''
@@ -141,7 +150,11 @@ apiRouter.use(handleApiErrors)
 server.use(PROXY_PATH, router)
 server.use(function catchKnownError (err, req, res, next) {
   if (err.name === 'ClientError') {
-    log.warn({ req, res, err })
+    log.warn({
+      req,
+      res,
+      err
+    })
     res.render('error', {
       prefix_path: process.env.PROXY_PATH,
       message: err.message,
@@ -152,7 +165,11 @@ server.use(function catchKnownError (err, req, res, next) {
   }
 })
 server.use(function catchAll (err, req, res, next) {
-  log.error({ req, res, err })
+  log.error({
+    req,
+    res,
+    err
+  })
   res.send('A fatal error occurred! :(')
 })
 module.exports = server
