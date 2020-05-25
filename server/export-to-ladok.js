@@ -1,7 +1,7 @@
 const log = require('skog')
 
 async function startPage (req, res) {
-  console.log('log-visited!!!')
+  console.info('log-visited!!!')
   if (!req.body || !req.body.custom_canvas_course_id) {
     throw new Error()
   }
