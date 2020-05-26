@@ -1,6 +1,7 @@
 const log = require('skog')
 
 async function startPage (req, res) {
+  log.info('log-visited!!!')
   if (!req.body || !req.body.custom_canvas_course_id) {
     throw new Error()
   }
@@ -40,9 +41,13 @@ function handleHtmlErrors (err, req, res, next) {
 function handleApiErrors (err, req, res, next) {
   log.info('An error occured', err)
   if (err.name === 'ClientError') {
-    res.status(500).send({ error: err.message })
+    res.status(500).send({
+      error: err.message
+    })
   } else {
-    res.status(500).send({ error: 'A generic error occured.' })
+    res.status(500).send({
+      error: 'A generic error occured.'
+    })
   }
 }
 
