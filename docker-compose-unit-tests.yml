@@ -6,6 +6,6 @@ services:
     image: $LOCAL_IMAGE_ID
     tty: false
     command: >
-      sh -c "apk add --update openssl &&
+      sh -c "apk add openssl &&
              npm install &&
              npm test"
