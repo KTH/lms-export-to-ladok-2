@@ -27,7 +27,7 @@ services:
 
   # Here we are running the "test" container
   cypress:
-    image: 'cypress/included:3.4.1'
+    build: ./e2e
     environment:
       - CANVAS_BUTTON_NAME=C2L-e2e
       - CANVAS_TEST_PASSWORD
