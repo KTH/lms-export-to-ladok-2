@@ -3,15 +3,9 @@ version: '3.2'
 services:
   unit_tests:
     build: .
-
-    # We are setting "/usr/src/testdir" as current directory
-    # to not manipulate the image contents with testing elements.
-    volumes:
-      - ./:/usr/src/testdir
-
+    image: $LOCAL_IMAGE_ID
     tty: false
     command: >
-      sh -c "cd /usr/src/testdir &&
-             apk add --update openssl &&
+      sh -c "apk add openssl &&
              npm install &&
              npm test"

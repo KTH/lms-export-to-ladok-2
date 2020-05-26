@@ -27,13 +27,10 @@ services:
 
   # Here we are running the "test" container
   cypress:
-    image: 'cypress/included:3.4.1'
+    build: ./e2e
     environment:
       - CANVAS_BUTTON_NAME=C2L-e2e
       - CANVAS_TEST_PASSWORD
       - CYPRESS_baseUrl=http://exporttoladok-e2e-test:3001
       - PROXY_BASE=http://exporttoladok-e2e-test:3001
       - CANVAS_CLIENT_ID
-    working_dir: /cypress_working_dir
-    volumes:
-      - ./:/cypress_working_dir
