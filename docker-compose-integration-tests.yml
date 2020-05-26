@@ -34,6 +34,3 @@ services:
       - CYPRESS_baseUrl=http://exporttoladok-e2e-test:3001
       - PROXY_BASE=http://exporttoladok-e2e-test:3001
       - CANVAS_CLIENT_ID
-    working_dir: /cypress_working_dir
-    volumes:
-      - ./:/cypress_working_dir
