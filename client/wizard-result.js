@@ -8,7 +8,7 @@ function WizardResult ({
   onContinue
 }) {
   if (submissionResponse.loading)
-    return <div className='loader'>Loading...</div>
+    return <Loader reason="Transfering results to ladok ..." />
   if (submissionResponse.error) {
     return (
       <>
