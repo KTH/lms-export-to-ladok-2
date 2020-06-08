@@ -1,7 +1,8 @@
 import React from 'react'
+import Loader from './loader'
 
 function Table ({ loading, error, data: table }) {
-  if (loading) return <div className='loader'>Loading...</div>
+  if (loading) return <Loader reason='Fetching grades ...' />
   if (error) return <div>An error occurred: {error.error}</div>
 
   const sortedList = table
