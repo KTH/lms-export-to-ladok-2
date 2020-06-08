@@ -142,7 +142,7 @@ function App () {
   // From here everything is visualization
   //
 
-  if (course.loading) return <Loader reason="Loading application ..." />
+  if (course.loading) return <Loader reason='Loading application ...' />
   if (course.error) return <div>An error occurred: {course.error}</div>
 
   if (currentPage === 0) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import Loader from './loader'
 
 function WizardResult ({
   origin,
@@ -8,7 +9,7 @@ function WizardResult ({
   onContinue
 }) {
   if (submissionResponse.loading)
-    return <Loader reason="Transfering results to ladok ..." />
+    return <Loader reason='Transfering results to ladok ...' />
   if (submissionResponse.error) {
     return (
       <>
