@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import AssignmentSelector from './assignment-selector'
 import ExaminationList from './examination-list'
+import SelectDate from './select-date'
 
 function NextButton ({ assignment, examinationDate, onClick }) {
   let disabled = false
@@ -73,13 +74,10 @@ export default function WizardForm ({
         Examination Date. If you need to set a different date on an individual
         level, please change it in Ladok after transferring.
       </p>
-      <input
-        name='examination_date '
-        className='form-control'
-        type='date'
-        value={examinationDate}
-        onChange={event => setExaminationDate(event.target.value)}
-        required
+      <SelectDate
+        examinationDate={examinationDate}
+        setExaminationDate={setExaminationDate}
+        dateFormat='yyyy-MM-dd'
       />
       <div className='button-section'>
         <button
