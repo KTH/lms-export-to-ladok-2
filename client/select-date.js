@@ -1,26 +1,32 @@
 import React, { useCallback } from 'react'
-import { parse, format } from 'date-fns'
+import DatePicker from 'react-datepicker'
+import { format } from 'date-fns'
 
 const SelectDate = ({ examinationDate, setExaminationDate, dateFormat }) => {
-  const formatDate = useCallback(
-    date => format(parse(date, dateFormat, new Date()), dateFormat),
-    [parse, format]
+  const setDate = useCallback(
+    date =>
+      setExaminationDate(
+        format(
+          new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+          dateFormat
+        )
+      ),
+    [format]
   )
 
-  const setDate = useCallback(
-    e => setExaminationDate(formatDate(e.target.value)),
-    []
-  )
+  const dateFromString = useCallback(date => {
+    if (!date.length) {
+      return ''
+    }
+    return new Date(date)
+  }, [])
 
   return (
-    <input
-      name='examination_date '
-      className='form-control'
-      type='date'
-      placeholder='YYYY-MM-DD'
-      value={examinationDate}
-      onChange={setDate}
-      required
+    <DatePicker
+      dateFormat={dateFormat}
+      selected={dateFromString(examinationDate)}
+      onChange={date => setDate(date)}
+      placeholderText='YYYY-MM-DD'
     />
   )
 }
