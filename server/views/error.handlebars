@@ -4,11 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Error!</title>
-  <link rel="stylesheet" href="{{prefix_path}}/dist/index.css">
+  <title>Error | Transfer to Ladok | KTH</title>
+  <style>
+    body {
+      background-color: #e3e5e3;
+      margin: 0;
+      font-family: Arial,Helvetica Neue,helvetica,sans-serif;
+      font-weight: 400;
+      line-height: 1.4375;
+        font-size: 1.2rem;
+    }
+
+    .wrapper {
+      padding: 40px;
+      font-family: arial, helvetica;
+      box-shadow: 0 0 5px 5px #aeb4ae;
+      background-color: #fff;
+      transform: rotate(-5deg);
+      -moz-transform: rotate(-5deg);
+      -webkit-transform: rotate(-5deg);
+      padding: 30px 40px 40px;
+      max-width: 750px;
+      margin: 30px auto;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 400;
+      line-height: 1.4375;
+    }
+
+    h2 {
+      font-size: 2.0rem;
+      font-weight: 400;
+      margin: 0 0 0.5rem 0
+    }
+
+    p {
+      font-size: 1.125rem;
+    }
+
+    p.small {
+      font-size: 0.9rem;
+      color: #666
+    }
+  </style>
 </head>
 <body>
-  <h1>An error has occurred!</h1>
-  <div>{{message}}</div>
+  <div class="wrapper">
+    <img src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg" alt="KTH Logotype" width="76" height="76">
+    <h1>{{title}}</h1>
+    <h2>{{subtitle}}</h2>
+
+    <p>Is something not working as expected? <a href="mailto:it-support@kth.se">Contact IT support</a>.</p>
+
+    <p class="small">Error code: {{code}}</p>
+  </div>
 </body>
 </html>

@@ -3,7 +3,13 @@ const log = require('skog')
 async function startPage (req, res) {
   log.info('log-visited!!!')
   if (!req.body || !req.body.custom_canvas_course_id) {
-    throw new Error()
+    res.render('error', {
+      layout: false,
+      title: 'This app needs to be launched from Canvas',
+      subtitle:
+        'To use this app you need to click on the "Transfer to Ladok" button on the left-hand side of your course in Canvas.',
+      code: 'missing body parameter [custom_canvas_course_id]'
+    })
   }
 
   res.render('start', {
