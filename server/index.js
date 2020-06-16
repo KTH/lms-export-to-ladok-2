@@ -118,25 +118,40 @@ apiRouter.post(
     const moduleId = req.body.moduleId
     const examinationDate = req.body.examinationDate
 
-    if (moduleId) {
-      const result = await transferModule.transferResults(
-        courseId,
-        moduleId,
-        assignmentId,
-        examinationDate,
-        token
-      )
+    try {
+      if (moduleId) {
+        const result = await transferModule.transferResults(
+          courseId,
+          moduleId,
+          assignmentId,
+          examinationDate,
+          token
+        )
 
-      res.send(result)
-    } else {
-      const result = await transferExamination.transferResults(
-        courseId,
-        assignmentId,
-        examinationDate,
-        token
-      )
+        res.send(result)
+      } else {
+        const result = await transferExamination.transferResults(
+          courseId,
+          assignmentId,
+          examinationDate,
+          token
+        )
 
-      res.send(result)
+        res.send(result)
+      }
+    } catch (err) {
+      if (err.body && err.body.Meddelande) {
+        log.warn(
+          `Known error when transferring results to Ladok: ${err.body.Meddelande}`
+        )
+
+        res.status(400).send({
+          code: 'ladok_error',
+          message: err.body.Meddelande
+        })
+      } else {
+        log.error('Unknown error when transferring results to Ladok', err)
+      }
     }
   }
 )

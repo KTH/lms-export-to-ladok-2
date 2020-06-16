@@ -25,7 +25,7 @@ function WizardResult ({
             Examination date: <strong>{examinationDate}</strong>
           </p>
           <p>
-            <strong>{submissionResponse.error.error}</strong>
+            <strong>{submissionResponse.error.message}</strong>
           </p>
           <p>
             <em>
