@@ -64,7 +64,7 @@ router.post('/export2', oauth1)
 router.get('/export3', oauth2, function (req, res) {
   res.redirect('app')
 })
-router.get('/app', authorization.authorize, showForm)
+router.get('/app', showForm)
 
 router.get('/_monitor', system.monitor)
 router.get('/_monitor_all', system.monitor)
@@ -72,7 +72,6 @@ router.get('/_about', system.about)
 router.use('/api', apiRouter)
 router.use(handleHtmlErrors)
 
-apiRouter.use(authorization.authorize)
 apiRouter.get('/course-info', async function getCourseInfo (req, res) {
   const token = req.signedCookies.access_data.token
   const courseId = req.signedCookies.access_data.courseId

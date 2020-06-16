@@ -2,6 +2,7 @@ const log = require('skog')
 const querystring = require('querystring')
 const { URL } = require('url')
 const got = require('got')
+const { isAllowedInCanvas, isAllowedInLadok } = require('../lib/is-allowed')
 
 async function getAccessData (redirectUrl, code) {
   const { body } = await got({
@@ -135,6 +136,8 @@ const oauth2 = redirectPath =>
     )
 
     let token, userId, realUserId
+    const courseId = req.query.course_id
+
     try {
       const canvasAccessData = await getAccessData(
         callbackUrl.toString(),
@@ -156,11 +159,40 @@ const oauth2 = redirectPath =>
       return
     }
 
+    const allowedIncanvas = await isAllowedInCanvas(token, courseId)
+
+    if (!allowedIncanvas) {
+      log.warn(`User is not allowed to use the app in Canvas`)
+      res.render('error', {
+        layout: false,
+        title: 'Unauthorized',
+        subtitle:
+          'You must be a teacher or examiner in the Canvas course to use this app',
+        code: `user is not allowed in Canvas`
+      })
+
+      return
+    }
+
+    const allowedInLadok = await isAllowedInLadok(token, courseId)
+
+    if (!allowedInLadok) {
+      log.warn(`User is not allowed to use the app in Ladok`)
+      res.render('error', {
+        layout: false,
+        title: 'Unauthorized',
+        subtitle: 'You must have reporter permissions in Ladok to use this app',
+        code: `user is not allowed in Ladok`
+      })
+
+      return
+    }
+
     const accessData = {
       token,
       userId,
       realUserId,
-      courseId: req.query.course_id
+      courseId
     }
     res.cookie('access_data', accessData, { signed: true })
     next()
