@@ -134,10 +134,27 @@ const oauth2 = redirectPath =>
       process.env.PROXY_BASE
     )
 
-    const { token, userId, realUserId } = await getAccessData(
-      callbackUrl.toString(),
-      req.query.code
-    )
+    let token, userId, realUserId
+    try {
+      const canvasAccessData = await getAccessData(
+        callbackUrl.toString(),
+        req.query.code
+      )
+      token = canvasAccessData.token
+      userId = canvasAccessData.userId
+      realUserId = canvasAccessData.realUserId
+    } catch (err) {
+      log.error(`Error getting access data from Canvas`)
+      res.render('error', {
+        layout: false,
+        title: 'Unexpected error',
+        subtitle:
+          'The app must be launched from Canvas. Please close this tab/window and try again',
+        code: `missing query parameter [code]`
+      })
+
+      return
+    }
 
     const accessData = {
       token,
