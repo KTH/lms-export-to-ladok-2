@@ -8,12 +8,7 @@ const cookieParser = require('cookie-parser')
 const system = require('./system')
 const { oauth1, oauth2 } = require('./oauth')('/export3')
 const authorization = require('./authorization')
-const {
-  startPage,
-  showForm,
-  handleHtmlErrors,
-  handleApiErrors
-} = require('./export-to-ladok')
+const { startPage, showForm, handleHtmlErrors } = require('./export-to-ladok')
 const getCourseStructure = require('../lib/get-course-structure')
 const transferExamination = require('../lib/transfer-examination')
 const transferModule = require('../lib/transfer-module')
@@ -145,7 +140,6 @@ apiRouter.post(
     }
   }
 )
-apiRouter.use(handleApiErrors)
 
 server.use(PROXY_PATH, router)
 server.use(function catchKnownError (err, req, res, next) {
@@ -164,12 +158,19 @@ server.use(function catchKnownError (err, req, res, next) {
     next(err)
   }
 })
+
+/**
+ * Generic error handler.
+ *
+ * This is called only if an unhandled error happened during the execution.
+ * In that case, the app response is a 500.
+ */
 server.use(function catchAll (err, req, res, next) {
   log.error({
     req,
     res,
     err
   })
-  res.send('A fatal error occurred! :(')
+  res.status(500).send('Unexpected error. Status 500')
 })
 module.exports = server
