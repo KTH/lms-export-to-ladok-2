@@ -77,7 +77,6 @@ export default function WizardForm ({
       <SelectDate
         examinationDate={examinationDate}
         setExaminationDate={setExaminationDate}
-        dateFormat='yyyy-MM-dd'
       />
       <div className='button-section'>
         <button
