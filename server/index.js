@@ -150,6 +150,7 @@ apiRouter.post(
         })
       } else {
         log.error('Unknown error when transferring results to Ladok', err)
+        res.status(500).send('unknown error')
       }
     }
   }
