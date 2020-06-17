@@ -28,24 +28,7 @@ async function showForm (req, res) {
   })
 }
 
-function handleHtmlErrors (err, req, res, next) {
-  if (err.name !== 'ExportError') {
-    next(err)
-    return
-  }
-
-  res.render('export-error', {
-    layout: false,
-    summary:
-      err.code === 'ladok_error' ? 'See the error obtained from Ladok' : '',
-    details: err.message,
-    prefix_path: process.env.PROXY_PATH,
-    course_id: req.query.course_id
-  })
-}
-
 module.exports = {
   startPage,
-  showForm,
-  handleHtmlErrors
+  showForm
 }

@@ -70,7 +70,6 @@ router.get('/_monitor', system.monitor)
 router.get('/_monitor_all', system.monitor)
 router.get('/_about', system.about)
 router.use('/api', apiRouter)
-router.use(handleHtmlErrors)
 
 apiRouter.get('/course-info', async function getCourseInfo (req, res) {
   const token = req.signedCookies.access_data.token
