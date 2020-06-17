@@ -141,11 +141,7 @@ async function start () {
 
     if (!proceed) return
 
-    const newButton = await canvas.requestUrl(
-      '/accounts/1/external_tools',
-      'POST',
-      body
-    )
+    await canvas.requestUrl('/accounts/1/external_tools', 'POST', body)
 
     console.log(
       `New button created. You can see it in any course at ${canvasRoot}accounts/1`
