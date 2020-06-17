@@ -8,12 +8,7 @@ const cookieParser = require('cookie-parser')
 const system = require('./system')
 const { oauth1, oauth2 } = require('./oauth')('/export3')
 const authorization = require('./authorization')
-const {
-  startPage,
-  showForm,
-  handleHtmlErrors,
-  handleApiErrors
-} = require('./export-to-ladok')
+const { startPage, showForm, handleHtmlErrors } = require('./export-to-ladok')
 const getCourseStructure = require('../lib/get-course-structure')
 const transferExamination = require('../lib/transfer-examination')
 const transferModule = require('../lib/transfer-module')
@@ -123,29 +118,44 @@ apiRouter.post(
     const moduleId = req.body.moduleId
     const examinationDate = req.body.examinationDate
 
-    if (moduleId) {
-      const result = await transferModule.transferResults(
-        courseId,
-        moduleId,
-        assignmentId,
-        examinationDate,
-        token
-      )
+    try {
+      if (moduleId) {
+        const result = await transferModule.transferResults(
+          courseId,
+          moduleId,
+          assignmentId,
+          examinationDate,
+          token
+        )
 
-      res.send(result)
-    } else {
-      const result = await transferExamination.transferResults(
-        courseId,
-        assignmentId,
-        examinationDate,
-        token
-      )
+        res.send(result)
+      } else {
+        const result = await transferExamination.transferResults(
+          courseId,
+          assignmentId,
+          examinationDate,
+          token
+        )
 
-      res.send(result)
+        res.send(result)
+      }
+    } catch (err) {
+      if (err.body && err.body.Meddelande) {
+        log.warn(
+          `Known error when transferring results to Ladok: ${err.body.Meddelande}`
+        )
+
+        res.status(400).send({
+          code: 'ladok_error',
+          message: err.body.Meddelande
+        })
+      } else {
+        log.error('Unknown error when transferring results to Ladok', err)
+        res.status(500).send('unknown error')
+      }
     }
   }
 )
-apiRouter.use(handleApiErrors)
 
 server.use(PROXY_PATH, router)
 server.use(function catchKnownError (err, req, res, next) {
@@ -164,12 +174,19 @@ server.use(function catchKnownError (err, req, res, next) {
     next(err)
   }
 })
+
+/**
+ * Generic error handler.
+ *
+ * This is called only if an unhandled error happened during the execution.
+ * In that case, the app response is a 500.
+ */
 server.use(function catchAll (err, req, res, next) {
   log.error({
     req,
     res,
     err
   })
-  res.send('A fatal error occurred! :(')
+  res.status(500).send('Unexpected error. Status 500')
 })
 module.exports = server
