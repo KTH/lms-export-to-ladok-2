@@ -2,7 +2,7 @@ const log = require('skog')
 const querystring = require('querystring')
 const { URL } = require('url')
 const got = require('got')
-const { ClientError } = require('../lib/errors')
+const { isAllowedInCanvas, isAllowedInLadok } = require('../lib/is-allowed')
 
 async function getAccessData (redirectUrl, code) {
   const { body } = await got({
@@ -29,17 +29,26 @@ async function getAccessData (redirectUrl, code) {
 const oauth1 = redirectPath =>
   function oauth1Middleware (req, res) {
     if (!req.body) {
-      throw new ClientError(
-        'missing_body',
-        'Missing body in the request. Probably the page has been accessed outside from Canvas'
-      )
+      res.render('error', {
+        layout: false,
+        title: 'This app needs to be launched from Canvas',
+        subtitle:
+          'To use this app you need to click on the "Transfer to Ladok" button on the left-hand side of your course in Canvas.',
+        code: 'missing body'
+      })
+      return
     }
 
     if (!req.body.custom_canvas_course_id) {
-      throw new ClientError(
-        'missing_attribute',
-        'Missing attribute "custom_canvas_course_id". Probably the page has been accessed outside from Canvas'
-      )
+      res.render('error', {
+        layout: false,
+        title: 'This app needs to be launched from Canvas',
+        subtitle:
+          'To use this app you need to click on the "Transfer to Ladok" button on the left-hand side of your course in Canvas.',
+        code: 'missing attribute "custom_canvas_course_id"'
+      })
+
+      return
     }
 
     const courseId = req.body.custom_canvas_course_id
@@ -71,31 +80,54 @@ const oauth1 = redirectPath =>
 const oauth2 = redirectPath =>
   async function oauth2Middleware (req, res, next) {
     if (!req.query || !req.query.course_id) {
-      throw new ClientError(
-        'missing_query_parameters',
-        'Missing query parameter [course_id]'
-      )
+      log.warn('Missing query parameter from Canvas oauth [course_id]')
+      res.render('error', {
+        layout: false,
+        title: 'An unexpected error ocurred',
+        subtitle: 'Please, try again',
+        code: 'missing query parameter [course_id]'
+      })
+
+      return
     }
 
     if (req.query.error && req.query.error === 'access_denied') {
-      throw new ClientError(
-        'access_denied',
-        'The user has not authorized the app. Obtained query parameter [error=access_denied]'
+      log.warn(
+        'The user has not authorize the application [error=access_denied]'
       )
+      res.render('error', {
+        layout: false,
+        title: 'Authorization required',
+        subtitle:
+          'This app needs access to your course data in order to transfer the grades from there',
+        code: 'obtained query parameter [error=access_denied]'
+      })
+
+      return
     }
 
     if (req.query.error) {
-      throw new ClientError(
-        'unknown_oauth_error',
-        `Unexpected query parameter [error=${req.query.error}] received from Canvas`
-      )
+      log.error(`Obtained error from Canvas oauth [error=${req.query.error}]`)
+      res.render('error', {
+        layout: false,
+        title: 'Unexpected error',
+        subtitle: 'Please try again later',
+        code: `unexpected query parameter [error=${req.query.error}]`
+      })
+
+      return
     }
 
     if (!req.query.code) {
-      throw new ClientError(
-        'unknown_oauth_error',
-        'Missing query parameter [code]'
-      )
+      log.error(`No [code] parameter obtained from Canvas oauth`)
+      res.render('error', {
+        layout: false,
+        title: 'Unexpected error',
+        subtitle: 'Please try again later',
+        code: `missing query parameter [code]`
+      })
+
+      return
     }
 
     const callbackUrl = new URL(
@@ -103,16 +135,64 @@ const oauth2 = redirectPath =>
       process.env.PROXY_BASE
     )
 
-    const { token, userId, realUserId } = await getAccessData(
-      callbackUrl.toString(),
-      req.query.code
-    )
+    let token, userId, realUserId
+    const courseId = req.query.course_id
+
+    try {
+      const canvasAccessData = await getAccessData(
+        callbackUrl.toString(),
+        req.query.code
+      )
+      token = canvasAccessData.token
+      userId = canvasAccessData.userId
+      realUserId = canvasAccessData.realUserId
+    } catch (err) {
+      log.error(`Error getting access data from Canvas`)
+      res.render('error', {
+        layout: false,
+        title: 'Unexpected error',
+        subtitle:
+          'The app must be launched from Canvas. Please close this tab/window and try again',
+        code: `missing query parameter [code]`
+      })
+
+      return
+    }
+
+    const allowedIncanvas = await isAllowedInCanvas(token, courseId)
+
+    if (!allowedIncanvas) {
+      log.warn(`User is not allowed to use the app in Canvas`)
+      res.render('error', {
+        layout: false,
+        title: 'Unauthorized',
+        subtitle:
+          'You must be a teacher or examiner in the Canvas course to use this app',
+        code: `user is not allowed in Canvas`
+      })
+
+      return
+    }
+
+    const allowedInLadok = await isAllowedInLadok(token, courseId)
+
+    if (!allowedInLadok) {
+      log.warn(`User is not allowed to use the app in Ladok`)
+      res.render('error', {
+        layout: false,
+        title: 'Unauthorized',
+        subtitle: 'You must have reporter permissions in Ladok to use this app',
+        code: `user is not allowed in Ladok`
+      })
+
+      return
+    }
 
     const accessData = {
       token,
       userId,
       realUserId,
-      courseId: req.query.course_id
+      courseId
     }
     res.cookie('access_data', accessData, { signed: true })
     next()
