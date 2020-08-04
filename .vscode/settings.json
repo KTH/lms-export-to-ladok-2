@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.defaultFormatter": "ksmithut.pretty-standard",
   "[javascript]": {
     "editor.defaultFormatter": "ksmithut.pretty-standard"

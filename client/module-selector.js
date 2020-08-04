@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 /**
  * Component to choose one module
  * - modules. list of "modules" the user can choose from
@@ -7,6 +7,16 @@ import React from 'react'
  * - value. Index on the list to show as selection
  */
 export default function ModuleSelector ({ modules, onChange, value }) {
+  if (modules.length === 1) {
+    onChange(1)
+    return (
+      <ul>
+        <strong>
+          {modules[0].code} - ({modules[0].name.en} / {modules[0].name.sv})
+        </strong>
+      </ul>
+    )
+  }
   return (
     <div className='select-wrapper'>
       <select
