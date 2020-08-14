@@ -26,7 +26,7 @@ describe('Basic smoke testing of the app in Canvas', function () {
     cy.visit(
       'https://kth.test.instructure.com/courses/sis_course_id:TEST_LMSC2L'
     )
-    cy.get(`a[title=${Cypress.env('CANVAS_BUTTON_NAME')}]`).click()
+    cy.get(`a:contains(${Cypress.env('CANVAS_BUTTON_NAME')})`).click()
     cy.get('iframe#tool_content').then($iframe => {
       const doc = $iframe.contents()
       cy.wrap(doc.find('h1')).should('contain', 'Transfer to Ladok')
