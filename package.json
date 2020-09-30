@@ -5,8 +5,6 @@
   "main": "app.js",
   "scripts": {
     "test": "prettier-standard --lint --check \"**/*.{js,md,yml,json}\"",
-    "test:browser": "npx cypress open",
-    "test:browser-docker": "docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --build",
     "format": "prettier-standard \"**/*.{js,md,yml,json}\"",
     "start": "node .",
     "build": "NODE_ENV=production webpack",
