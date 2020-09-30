@@ -1,0 +1,35 @@
+# Compose file for running end to end tests
+# based on https://github.com/cypress-io/cypress-example-docker-compose
+version: '3.3'
+
+services:
+  # Here, we are deploying the app itself locally
+  exporttoladok-e2e-test:
+    build: .
+    image: $LOCAL_IMAGE_ID
+    ports:
+      - 3001
+
+    environment:
+      - LADOK_API_BASEURL=https://api.test.ladok.se
+      - LADOK_API_PFX_BASE64
+      - LADOK_API_PFX_PASSPHRASE
+      - CANVAS_CLIENT_ID
+      - CANVAS_CLIENT_SECRET
+      - CANVAS_HOST=kth.test.instructure.com
+      - LADOK_KTH_LAROSATE_ID=29
+      - LADOK_REPORTER_PROFILE_UID=0997fd42-7488-11e8-920e-2de0ccaf48ac
+      - PROXY_BASE=http://exporttoladok-e2e-test:3001
+      - PROXY_PATH=/api/lms-export-to-ladok
+      - COOKIE_SIGNATURE_SECRET=aaaa
+      - MONGODB_CONNECTION_STRING
+      - MONGODB_DATABASE_NAME=stage-export-to-ladok-logs
+
+  # Here we are running the "test" container
+  cypress:
+    build: ./e2e
+    environment:
+      - CANVAS_TEST_PASSWORD
+      - CYPRESS_baseUrl=http://exporttoladok-e2e-test:3001
+      - PROXY_BASE=http://exporttoladok-e2e-test:3001
+      - CANVAS_CLIENT_ID
