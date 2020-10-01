@@ -29,7 +29,6 @@ services:
   cypress:
     build: ./e2e
     environment:
-      - CANVAS_BUTTON_NAME=C2L-e2e
       - CANVAS_TEST_PASSWORD
       - CYPRESS_baseUrl=http://exporttoladok-e2e-test:3001
       - PROXY_BASE=http://exporttoladok-e2e-test:3001
