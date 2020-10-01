@@ -23,8 +23,6 @@ module.exports = (on, config) => {
   config.env.CANVAS_TEST_PASSWORD = process.env.CANVAS_TEST_PASSWORD
   config.env.CANVAS_CLIENT_ID = process.env.CANVAS_CLIENT_ID
   config.env.PROXY_BASE = process.env.PROXY_BASE
-  config.env.CANVAS_BUTTON_NAME =
-    process.env.CANVAS_BUTTON_NAME || 'C2L-localhost'
 
   return config
 }
