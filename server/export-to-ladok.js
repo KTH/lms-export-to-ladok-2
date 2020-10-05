@@ -21,6 +21,14 @@ async function startPage (req, res) {
 }
 
 async function showForm (req, res) {
+  if (!req.signedCookies.access_data) {
+    return res.render('error', {
+      layout: false,
+      title: 'Not authorizied',
+      subtitle: 'To use this app you need to be authenticated',
+      code: 'missing cookie parameter [access_data]'
+    })
+  }
   res.render('form', {
     prefix_path: process.env.PROXY_PATH,
     token: req.signedCookies.access_data.token,
