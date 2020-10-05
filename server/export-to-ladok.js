@@ -25,8 +25,7 @@ async function showForm (req, res) {
     return res.render('error', {
       layout: false,
       title: 'Not authorizied',
-      subtitle:
-        'To use this app you need to be authenticated and have a cookie set',
+      subtitle: 'To use this app you need to be authenticated',
       code: 'missing cookie parameter [access_data]'
     })
   }
