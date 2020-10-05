@@ -22,7 +22,7 @@ async function startPage (req, res) {
 
 async function showForm (req, res) {
   if (!req.signedCookies.access_data) {
-    res.render('error', {
+    return res.render('error', {
       layout: false,
       title: 'Not authorizied',
       subtitle:
