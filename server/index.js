@@ -59,10 +59,10 @@ if (process.env.NODE_ENV === 'development') {
   router.use('/dist', express.static(path.resolve(process.cwd(), 'dist')))
 }
 router.get('/fake500', (req, res) => {
-  return res.status(500).send();
+  return res.status(500).send()
 })
 router.get('/fake502', (req, res) => {
-  return res.status(502).send();
+  return res.status(502).send()
 })
 router.post('/export', startPage)
 router.post('/export2', oauth1)
