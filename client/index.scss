@@ -1,5 +1,5 @@
-@import 'kth-style/public/sass/kth-bootstrap';
-@import '~react-datepicker/src/stylesheets/datepicker';
+@import "kth-style/public/sass/kth-bootstrap";
+@import "~react-datepicker/src/stylesheets/datepicker";
 
 html {
   font-family: $sansSerif;
@@ -153,6 +153,17 @@ h2 {
     align-items: center;
     justify-content: center;
     width: 100%;
+  }
+}
+
+.react-datepicker {
+  &__input-container {
+    input {
+      &::-moz-placeholder {
+        color: #4e555c;
+        opacity: 1;
+      }
+    }
   }
 }
 
