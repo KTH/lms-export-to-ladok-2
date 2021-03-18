@@ -162,7 +162,7 @@ const oauth2 = redirectPath =>
     const allowedIncanvas = await isAllowedInCanvas(token, courseId)
 
     if (!allowedIncanvas) {
-      log.warn(`User is not allowed to use the app in Canvas`)
+      log.info(`User is not allowed to use the app in Canvas`)
       res.render('error', {
         layout: false,
         title: 'Unauthorized',
@@ -177,7 +177,7 @@ const oauth2 = redirectPath =>
     const allowedInLadok = await isAllowedInLadok(token, courseId)
 
     if (!allowedInLadok) {
-      log.warn(`User is not allowed to use the app in Ladok`)
+      log.info(`User is not allowed to use the app in Ladok`)
       res.render('error', {
         layout: false,
         title: 'Unauthorized',
