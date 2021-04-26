@@ -1,5 +1,5 @@
-@import "kth-style/public/sass/kth-bootstrap";
-@import "~react-datepicker/src/stylesheets/datepicker";
+@import 'kth-style/public/sass/kth-bootstrap';
+@import '~react-datepicker/src/stylesheets/datepicker';
 
 html {
   font-family: $sansSerif;
@@ -37,6 +37,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
+
+  @media print {
+    display: none;
+  }
 }
 
 .button-section-container {
