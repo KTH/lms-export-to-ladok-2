@@ -1,43 +1,43 @@
-import { hot } from 'react-hot-loader/root'
-import React, { useState } from 'react'
-import WizardResult from './wizard-result'
-import { useFetch } from './react-hooks'
-import WizardFormWithoutModule from './wizard-form-without-module'
-import WizardFormWithModule from './wizard-form-with-module'
-import WizardPreview from './wizard-preview'
-import Loader from './loader'
+import { hot } from "react-hot-loader/root";
+import React, { useState } from "react";
+import WizardResult from "./wizard-result";
+import { useFetch } from "./react-hooks";
+import WizardFormWithoutModule from "./wizard-form-without-module";
+import WizardFormWithModule from "./wizard-form-with-module";
+import WizardPreview from "./wizard-preview";
+import Loader from "./loader";
 
-function useFetchCourseInfo (initialState) {
-  return useFetch({ url: 'api/course-info' }, initialState)[0]
+function useFetchCourseInfo(initialState) {
+  return useFetch({ url: "api/course-info" }, initialState)[0];
 }
 
-function useFetchGrades (initialState) {
-  const [response, fetch] = useFetch(null, initialState)
+function useFetchGrades(initialState) {
+  const [response, fetch] = useFetch(null, initialState);
 
-  function fetchGrades (assignmentId, moduleId) {
+  function fetchGrades(assignmentId, moduleId) {
     if (moduleId) {
       fetch({
-        url: `api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`
-      })
+        url: `api/table?assignmentId=${assignmentId}&moduleId=${moduleId}`,
+      });
     } else {
-      fetch({ url: `api/table?assignmentId=${assignmentId}` })
+      fetch({ url: `api/table?assignmentId=${assignmentId}` });
     }
   }
 
-  return [response, fetchGrades]
+  return [response, fetchGrades];
 }
 
-function useSubmitGrades (initialState) {
-  const [response, fetch] = useFetch(null, initialState)
+function useSubmitGrades(initialState) {
+  const [response, fetch] = useFetch(null, initialState);
 
-  function submitGrades (body) {
-    fetch({ url: `api/submit-grades`, method: 'POST', body })
+  function submitGrades(body) {
+    fetch({ url: `api/submit-grades`, method: "POST", body });
   }
 
-  return [response, submitGrades]
+  return [response, submitGrades];
 }
 
-function App () {
+function App() {
   // Definition of the state
 
   // Current page of the app
@@ -45,52 +45,52 @@ function App () {
   // 1 = the form to choose assignment, module and examination date
   // 2 = a table to see the grades to be transferred
   // 3 = a final screen as a result of the transfer
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Information about the course.
   // What assignments and modules can the user choose from
   const course = useFetchCourseInfo({
     assignments: [],
-    modules: []
-  })
+    modules: [],
+  });
 
   // User selection.
   // What the user has chosen
   const [userSelection, setSelection] = useState({
     assignment: -1,
     module: -1,
-    examinationDate: ''
-  })
+    examinationDate: "",
+  });
 
   // Grades
   // What are the grades that the app will try to transfer
-  const [grades, fetchGrades] = useFetchGrades([])
+  const [grades, fetchGrades] = useFetchGrades([]);
 
   // Result of the transfer
   // How the actual transfer is going on
-  const [submissionResponse, submitGrades] = useSubmitGrades(null)
+  const [submissionResponse, submitGrades] = useSubmitGrades(null);
 
-  function previewResult (selection) {
-    const assignmentId = selection.assignment
+  function previewResult(selection) {
+    const assignmentId = selection.assignment;
     const moduleId =
       course.data.modules.length === 0
         ? null
-        : course.data.modules[selection.module].uid
+        : course.data.modules[selection.module].uid;
 
-    fetchGrades(assignmentId, moduleId)
+    fetchGrades(assignmentId, moduleId);
 
-    setSelection(selection)
-    setCurrentPage(2)
+    setSelection(selection);
+    setCurrentPage(2);
   }
 
-  function confirmTransfer () {
+  function confirmTransfer() {
     const selectedAssignment = course.data.assignments.find(
-      a => a.id === userSelection.assignment
-    )
-    const examinationDate = userSelection.examinationDate
+      (a) => a.id === userSelection.assignment
+    );
+    const examinationDate = userSelection.examinationDate;
 
     if (course.data.modules.length > 0) {
-      const selectedModule = course.data.modules[userSelection.module]
+      const selectedModule = course.data.modules[userSelection.module];
       const confirm = window.confirm(
         `
         You are about to transfer grades for:
@@ -99,15 +99,15 @@ function App () {
         Examination Date: ${examinationDate}
 
         Do you want to proceed?`
-      )
+      );
 
       if (confirm) {
         submitGrades({
           assignmentId: selectedAssignment.id,
           moduleId: selectedModule.uid,
-          examinationDate
-        })
-        setCurrentPage(3)
+          examinationDate,
+        });
+        setCurrentPage(3);
       }
     } else {
       const confirm = window.confirm(
@@ -117,70 +117,70 @@ function App () {
         Examination Date: ${examinationDate}
 
         Do you want to proceed?`
-      )
+      );
 
       if (confirm) {
         submitGrades({
           assignmentId: selectedAssignment.id,
-          examinationDate
-        })
-        setCurrentPage(3)
+          examinationDate,
+        });
+        setCurrentPage(3);
       }
     }
   }
 
-  function startOver () {
+  function startOver() {
     setSelection({
       assignment: -1,
       module: -1,
-      examinationDate: ''
-    })
-    setCurrentPage(1)
+      examinationDate: "",
+    });
+    setCurrentPage(1);
   }
 
   //
   // From here everything is visualization
   //
 
-  if (course.loading) return <Loader reason='Loading application ...' />
-  if (course.error) return <div>An error occurred: {course.error}</div>
+  if (course.loading) return <Loader reason="Loading application ..." />;
+  if (course.error) return <div>An error occurred: {course.error}</div>;
 
   if (currentPage === 0) {
     return (
-      <h1 className='alert alert-success'>
+      <h1 className="alert alert-success">
         Transfer cancelled. You can safely leave this page.
       </h1>
-    )
+    );
   } else if (currentPage === 1 && course.data.examinations.length > 0) {
     return (
       <WizardFormWithoutModule
         options={course.data}
         selection={userSelection}
-        onSubmit={selection => {
-          previewResult(selection)
+        onSubmit={(selection) => {
+          previewResult(selection);
         }}
         onCancel={() => setCurrentPage(0)}
       />
-    )
+    );
   } else if (currentPage === 1 && course.data.modules.length > 0) {
     return (
       <WizardFormWithModule
         options={course.data}
         selection={userSelection}
-        onSubmit={selection => {
-          previewResult(selection)
+        onSubmit={(selection) => {
+          previewResult(selection);
         }}
         onCancel={() => setCurrentPage(0)}
       />
-    )
+    );
   } else if (currentPage === 2) {
     const origin = course.data.assignments.find(
-      a => a.id === userSelection.assignment
-    ).name
+      (a) => a.id === userSelection.assignment
+    ).name;
     const destination =
       course.data.modules.length > 0
         ? course.data.modules[userSelection.module].code
-        : `${course.data.examinations.length} examinations`
+        : `${course.data.examinations.length} examinations`;
 
     return (
       <WizardPreview
@@ -192,15 +192,15 @@ function App () {
         onSubmit={() => confirmTransfer()}
         grades={grades}
       />
-    )
+    );
   } else if (currentPage === 3) {
     const origin = course.data.assignments.find(
-      a => a.id === userSelection.assignment
-    ).name
+      (a) => a.id === userSelection.assignment
+    ).name;
     const destination =
       course.data.modules.length > 0
         ? course.data.modules[userSelection.module].code
-        : `${course.data.examinations.length} examinations`
+        : `${course.data.examinations.length} examinations`;
 
     return (
       <WizardResult
@@ -210,17 +210,17 @@ function App () {
         onContinue={startOver}
         submissionResponse={submissionResponse}
       />
-    )
+    );
   }
   return (
-    <div className='alert alert-danger fadein' aria-live='polite' role='alert'>
+    <div className="alert alert-danger fadein" aria-live="polite" role="alert">
       <h2>Transfer could not be initiated</h2>
       <p>
         If the current canvas room should be transferrable, contact
         it-support@kth.se for assistance.
       </p>
     </div>
-  )
+  );
 }
 
-export default hot(App)
+export default hot(App);

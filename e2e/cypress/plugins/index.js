@@ -13,16 +13,16 @@
 
 module.exports = (on, config) => {
   try {
-    require('dotenv').config()
+    require("dotenv").config();
   } catch (e) {
     console.log(
-      'dotenv package not installed, presupposing env vars already set'
-    )
+      "dotenv package not installed, presupposing env vars already set"
+    );
   }
 
-  config.env.CANVAS_TEST_PASSWORD = process.env.CANVAS_TEST_PASSWORD
-  config.env.CANVAS_CLIENT_ID = process.env.CANVAS_CLIENT_ID
-  config.env.PROXY_BASE = process.env.PROXY_BASE
+  config.env.CANVAS_TEST_PASSWORD = process.env.CANVAS_TEST_PASSWORD;
+  config.env.CANVAS_CLIENT_ID = process.env.CANVAS_CLIENT_ID;
+  config.env.PROXY_BASE = process.env.PROXY_BASE;
 
-  return config
-}
+  return config;
+};

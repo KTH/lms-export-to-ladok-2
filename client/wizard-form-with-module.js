@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
-import AssignmentSelector from './assignment-selector'
-import ModuleSelector from './module-selector'
-import SelectDate from './select-date'
+import React, { useState } from "react";
+import AssignmentSelector from "./assignment-selector";
+import ModuleSelector from "./module-selector";
+import SelectDate from "./select-date";
 
-function NextButton ({ assignment, module, examinationDate, onClick }) {
-  let disabled = false
-  let title = ''
-  let buttonClassNames = 'btn btn-next btn-success grid-col-3'
+function NextButton({ assignment, module, examinationDate, onClick }) {
+  let disabled = false;
+  let title = "";
+  let buttonClassNames = "btn btn-next btn-success grid-col-3";
 
   if (assignment === -1) {
-    disabled = true
-    title = 'Select an assignment in Canvas first'
-    buttonClassNames += ' disabled'
+    disabled = true;
+    title = "Select an assignment in Canvas first";
+    buttonClassNames += " disabled";
   } else if (module === -1) {
-    disabled = true
-    title = 'Select a module in Ladok first'
-    buttonClassNames += ' disabled'
+    disabled = true;
+    title = "Select a module in Ladok first";
+    buttonClassNames += " disabled";
   } else if (!examinationDate) {
-    disabled = true
-    title = 'Select an examination date first'
-    buttonClassNames += ' disabled'
+    disabled = true;
+    title = "Select an examination date first";
+    buttonClassNames += " disabled";
   }
 
   return (
@@ -31,31 +31,26 @@ function NextButton ({ assignment, module, examinationDate, onClick }) {
     >
       Students
     </button>
-  )
+  );
 }
 
-export default function WizardForm ({
-  options,
-  selection,
-  onSubmit,
-  onCancel
-}) {
-  const [assignment, setAssignment] = useState(selection.assignment)
-  const [module, setModule] = useState(selection.module)
+export default function WizardForm({ options, selection, onSubmit, onCancel }) {
+  const [assignment, setAssignment] = useState(selection.assignment);
+  const [module, setModule] = useState(selection.module);
   const [examinationDate, setExaminationDate] = useState(
     selection.examinationDate
-  )
+  );
 
-  function handleNextClick () {
+  function handleNextClick() {
     onSubmit({
       assignment,
       module,
-      examinationDate
-    })
+      examinationDate,
+    });
   }
 
   return (
-    <div className='form-group form-select'>
+    <div className="form-group form-select">
       <h1>Select assignment and date (Step 1 of 2)</h1>
       <p>
         To be able to transfer grades from Canvas to Ladok, you need to map a
@@ -95,9 +90,9 @@ export default function WizardForm ({
         examinationDate={examinationDate}
         setExaminationDate={setExaminationDate}
       />
-      <div className='button-section'>
+      <div className="button-section">
         <button
-          className='btn btn-secondary grid-col-2'
+          className="btn btn-secondary grid-col-2"
           onClick={() => onCancel()}
         >
           Cancel
@@ -110,5 +105,5 @@ export default function WizardForm ({
         />
       </div>
     </div>
-  )
+  );
 }

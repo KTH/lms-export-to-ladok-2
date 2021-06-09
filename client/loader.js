@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 
-const Loader = ({ reason = 'Loading ...' }) => {
+const Loader = ({ reason = "Loading ..." }) => {
   return (
     <>
-      <div className='loader' />
-      <p className='loader-text'>{reason}</p>
+      <div className="loader" />
+      <p className="loader-text">{reason}</p>
     </>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

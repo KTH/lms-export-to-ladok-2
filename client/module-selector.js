@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 /**
  * Component to choose one module
  * - modules. list of "modules" the user can choose from
@@ -6,18 +6,18 @@ import React, { useEffect } from 'react'
  *      Argument `i` is the index of the list
  * - value. Index on the list to show as selection
  */
-export default function ModuleSelector ({ modules, onChange, value }) {
+export default function ModuleSelector({ modules, onChange, value }) {
   useEffect(() => {
     if (modules.length === 1) {
-      onChange(0)
+      onChange(0);
     }
-  })
+  });
   if (modules.length === 1) {
     return (
-      <div className='select-wrapper'>
+      <div className="select-wrapper">
         <select
-          className='custom-select'
-          name='ladok_module'
+          className="custom-select"
+          name="ladok_module"
           value={value}
           disabled
         >
@@ -26,15 +26,15 @@ export default function ModuleSelector ({ modules, onChange, value }) {
           </option>
         </select>
       </div>
-    )
+    );
   }
   return (
-    <div className='select-wrapper'>
+    <div className="select-wrapper">
       <select
-        className='custom-select'
-        name='ladok_module'
+        className="custom-select"
+        name="ladok_module"
         value={value}
-        onChange={event => onChange(event.target.value)}
+        onChange={(event) => onChange(event.target.value)}
       >
         <option value={-1} disabled hidden>
           Select Ladok module
@@ -44,9 +44,9 @@ export default function ModuleSelector ({ modules, onChange, value }) {
             <option key={i} value={i}>
               {module.code} - ({module.name.en} / {module.name.sv})
             </option>
-          )
+          );
         })}
       </select>
     </div>
-  )
+  );
 }

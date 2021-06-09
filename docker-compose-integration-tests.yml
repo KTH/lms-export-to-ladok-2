@@ -1,6 +1,6 @@
 # Compose file for running end to end tests
 # based on https://github.com/cypress-io/cypress-example-docker-compose
-version: '3.3'
+version: "3.3"
 
 services:
   # Here, we are deploying the app itself locally

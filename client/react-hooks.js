@@ -1,45 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
-export function useFetch (initialParams, initialData) {
-  const [params, setParams] = useState(initialParams)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [data, setData] = useState(initialData)
+export function useFetch(initialParams, initialData) {
+  const [params, setParams] = useState(initialParams);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(initialData);
 
   useEffect(() => {
-    async function fetchData () {
-      setError(false)
-      setLoading(true)
+    async function fetchData() {
+      setError(false);
+      setLoading(true);
 
-      const options = { method: params.method || 'GET' }
+      const options = { method: params.method || "GET" };
       if (params.body) {
-        options.body = JSON.stringify(params.body)
+        options.body = JSON.stringify(params.body);
         options.headers = {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        };
       }
 
       try {
-        const response = await window.fetch(params.url, options)
+        const response = await window.fetch(params.url, options);
 
         if (response.ok) {
-          const data = await response.json()
-          setData(data)
+          const data = await response.json();
+          setData(data);
         } else {
-          const error = await response.json()
-          setError(error)
+          const error = await response.json();
+          setError(error);
         }
       } catch (err) {
-        setError(err)
+        setError(err);
       }
 
-      setLoading(false)
+      setLoading(false);
     }
 
     if (params && params.url) {
-      fetchData()
+      fetchData();
     }
-  }, [params])
+  }, [params]);
 
-  return [{ data, loading, error }, setParams]
+  return [{ data, loading, error }, setParams];
 }

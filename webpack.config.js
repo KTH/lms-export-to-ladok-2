@@ -1,23 +1,23 @@
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'production',
-  context: path.resolve(__dirname, 'client'),
+  mode: process.env.NODE_ENV || "production",
+  context: path.resolve(__dirname, "client"),
   entry: {
-    index: ['./index.scss', './index.js']
+    index: ["./index.scss", "./index.js"],
   },
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: `${process.env.PROXY_PATH}/dist/`
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: `${process.env.PROXY_PATH}/dist/`,
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
       {
         test: /\.svg$/,
-        loader: 'url-loader'
+        loader: "url-loader",
       },
       {
         test: /.s[ac]ss$/,
@@ -25,32 +25,32 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr: process.env.NODE_ENV === 'development'
-            }
+              hmr: process.env.NODE_ENV === "development",
+            },
           },
-          'css-loader',
+          "css-loader",
           {
-            loader: 'resolve-url-loader',
+            loader: "resolve-url-loader",
             options: {
-              join: function outerJoin (filename, options) {
-                return function innerJoin (uri, baseOrIteratorOrAbsent) {
-                  if (uri.includes('kth-style')) {
-                    uri = `node_modules/kth-style/public${uri.slice(2)}`
+              join: function outerJoin(filename, options) {
+                return function innerJoin(uri, baseOrIteratorOrAbsent) {
+                  if (uri.includes("kth-style")) {
+                    uri = `node_modules/kth-style/public${uri.slice(2)}`;
                   }
-                  return uri
-                }
-              }
-            }
+                  return uri;
+                };
+              },
+            },
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
-              sourceMap: true
-            }
-          }
-        ]
-      }
-    ]
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
   },
-  plugins: [new MiniCssExtractPlugin()]
-}
+  plugins: [new MiniCssExtractPlugin()],
+};
