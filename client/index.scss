@@ -1,5 +1,5 @@
-@import "kth-style/public/sass/kth-bootstrap";
-@import "~react-datepicker/src/stylesheets/datepicker";
+@import '../node_modules/kth-style/public/sass/kth-bootstrap';
+@import '~react-datepicker/src/stylesheets/datepicker';
 
 html {
   font-family: $sansSerif;
