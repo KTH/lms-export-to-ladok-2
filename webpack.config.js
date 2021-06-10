@@ -24,16 +24,14 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development'
-            }
+            options: {}
           },
           'css-loader',
           {
             loader: 'resolve-url-loader',
             options: {
               join: function outerJoin (filename, options) {
-                return function innerJoin (uri, baseOrIteratorOrAbsent) {
+                return function innerJoin ({ uri }) {
                   if (uri.startsWith('../fonts')) {
                     uri = `node_modules/kth-style/public${uri.slice(2)}`
                   }
