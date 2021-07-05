@@ -14,7 +14,7 @@ async function getAccessData(redirectUrl, code) {
       client_id: process.env.CANVAS_CLIENT_ID,
       client_secret: process.env.CANVAS_CLIENT_SECRET,
       redirect_url: redirectUrl,
-      code: code,
+      code,
       replace_tokens: true,
     },
   });
@@ -135,7 +135,9 @@ const oauth2 = (redirectPath) =>
       process.env.PROXY_BASE
     );
 
-    let token, userId, realUserId;
+    let token;
+    let userId;
+    let realUserId;
     const courseId = req.query.course_id;
 
     try {

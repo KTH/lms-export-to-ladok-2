@@ -22,7 +22,7 @@ export default function ModuleSelector({ modules, onChange, value }) {
           disabled
         >
           <option value={-1} disabled hidden>
-            {modules[0].code} - ({modules[0].name.en} / {modules[0].name.sv})
+            {modules[0].code} - ({modules[0].name.en} /{modules[0].name.sv})
           </option>
         </select>
       </div>
@@ -39,13 +39,11 @@ export default function ModuleSelector({ modules, onChange, value }) {
         <option value={-1} disabled hidden>
           Select Ladok module
         </option>
-        {modules.map((module, i) => {
-          return (
-            <option key={i} value={i}>
-              {module.code} - ({module.name.en} / {module.name.sv})
-            </option>
-          );
-        })}
+        {modules.map((module, i) => (
+          <option key={i} value={i}>
+            {module.code} - ({module.name.en} /{module.name.sv})
+          </option>
+        ))}
       </select>
     </div>
   );

@@ -47,11 +47,11 @@ export default function AssignmentSelector({ assignments, onChange, value }) {
               .sort((a, b) => {
                 if (a.type === "letter_grade") {
                   return -1;
-                } else if (b.type === "letter_grade") {
-                  return 1;
-                } else {
-                  return a.name.localeCompare(b.name);
                 }
+                if (b.type === "letter_grade") {
+                  return 1;
+                }
+                return a.name.localeCompare(b.name);
               })
               .map((assignment) => (
                 <option
@@ -59,7 +59,7 @@ export default function AssignmentSelector({ assignments, onChange, value }) {
                   value={assignment.id}
                   disabled={!assignment.published}
                 >
-                  {assignment.name}: {assignment.type.replace("_", " ")}
+                  {assignment.name}:{assignment.type.replace("_", " ")}
                   {assignment.published ? "" : " NOT PUBLISHED"}
                 </option>
               ))

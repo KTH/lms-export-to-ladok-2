@@ -87,7 +87,7 @@ function App() {
     const selectedAssignment = course.data.assignments.find(
       (a) => a.id === userSelection.assignment
     );
-    const examinationDate = userSelection.examinationDate;
+    const { examinationDate } = userSelection;
 
     if (course.data.modules.length > 0) {
       const selectedModule = course.data.modules[userSelection.module];
@@ -143,7 +143,7 @@ function App() {
   //
 
   if (course.loading) return <Loader reason="Loading application ..." />;
-  if (course.error) return <div>An error occurred: {course.error}</div>;
+  if (course.error) return <div>An error occurred:{course.error}</div>;
 
   if (currentPage === 0) {
     return (
@@ -151,7 +151,8 @@ function App() {
         Transfer cancelled. You can safely leave this page.
       </h1>
     );
-  } else if (currentPage === 1 && course.data.examinations.length > 0) {
+  }
+  if (currentPage === 1 && course.data.examinations.length > 0) {
     return (
       <WizardFormWithoutModule
         options={course.data}
@@ -162,7 +163,8 @@ function App() {
         onCancel={() => setCurrentPage(0)}
       />
     );
-  } else if (currentPage === 1 && course.data.modules.length > 0) {
+  }
+  if (currentPage === 1 && course.data.modules.length > 0) {
     return (
       <WizardFormWithModule
         options={course.data}
@@ -173,7 +175,8 @@ function App() {
         onCancel={() => setCurrentPage(0)}
       />
     );
-  } else if (currentPage === 2) {
+  }
+  if (currentPage === 2) {
     const origin = course.data.assignments.find(
       (a) => a.id === userSelection.assignment
     ).name;
@@ -193,7 +196,8 @@ function App() {
         grades={grades}
       />
     );
-  } else if (currentPage === 3) {
+  }
+  if (currentPage === 3) {
     const origin = course.data.assignments.find(
       (a) => a.id === userSelection.assignment
     ).name;

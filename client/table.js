@@ -3,7 +3,7 @@ import Loader from "./loader";
 
 function Table({ loading, error, data: table }) {
   if (loading) return <Loader reason="Fetching grades ..." />;
-  if (error) return <div>An error occurred: {error.error}</div>;
+  if (error) return <div>An error occurred:{error.error}</div>;
 
   const sortedList = table
     .slice()
