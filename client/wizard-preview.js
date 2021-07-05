@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import Table from "./table";
 
@@ -20,7 +21,11 @@ function TableFooter({ onBack, onSubmit, onCancel }) {
           >
             Cancel
           </button>
-          <button className="btn btn-primary grid-col-3" onClick={onSubmit}>
+          <button
+            className="btn btn-primary grid-col-3"
+            onClick={onSubmit}
+            type="submit"
+          >
             Transfer to Ladok
           </button>
         </div>

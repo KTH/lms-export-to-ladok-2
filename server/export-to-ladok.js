@@ -29,7 +29,8 @@ async function showForm(req, res) {
       code: "missing cookie parameter [access_data]",
     });
   }
-  res.render("form", {
+
+  return res.render("form", {
     prefix_path: process.env.PROXY_PATH,
     token: req.signedCookies.access_data.token,
     layout: false,

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// eslint-disable-next-line import/prefer-default-export
 export function useFetch(initialParams, initialData) {
   const [params, setParams] = useState(initialParams);
   const [loading, setLoading] = useState(true);
@@ -23,11 +24,9 @@ export function useFetch(initialParams, initialData) {
         const response = await window.fetch(params.url, options);
 
         if (response.ok) {
-          const data = await response.json();
-          setData(data);
+          setData(await response.json());
         } else {
-          const error = await response.json();
-          setError(error);
+          setError(await response.json());
         }
       } catch (err) {
         setError(err);

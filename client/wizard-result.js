@@ -39,6 +39,7 @@ function WizardResult({
           <button
             className="btn btn-primary grid-col-3"
             onClick={() => onContinue()}
+            type="button"
           >
             Start over
           </button>
@@ -67,6 +68,7 @@ function WizardResult({
         <button
           className="btn btn-primary grid-col-3"
           onClick={() => onContinue()}
+          type="button"
         >
           Transfer more results
         </button>

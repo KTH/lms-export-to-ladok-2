@@ -20,6 +20,7 @@ export default function ExaminationList({ list }) {
   return (
     <ul>
       {list.map((item, i) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Item examination={item} key={i} />
       ))}
     </ul>

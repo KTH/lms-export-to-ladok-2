@@ -29,6 +29,7 @@ function Table({ loading, error, data: table }) {
         </thead>
         <tbody>
           {sortedList.map((row, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i} className={row.transferrable ? "do-export-row" : ""}>
               <td className="table-col-1">{row.name}</td>
               <td className="table-col-2">{row.grade}</td>

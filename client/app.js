@@ -91,6 +91,7 @@ function App() {
 
     if (course.data.modules.length > 0) {
       const selectedModule = course.data.modules[userSelection.module];
+      // eslint-disable-next-line no-alert
       const confirm = window.confirm(
         `
         You are about to transfer grades for:
@@ -110,6 +111,7 @@ function App() {
         setCurrentPage(3);
       }
     } else {
+      // eslint-disable-next-line no-alert
       const confirm = window.confirm(
         `
         You are about to transfer grades for:

@@ -174,6 +174,7 @@ server.use((err, req, res, next) => {
  * This is called only if an unhandled error happened during the execution.
  * In that case, the app response is a 500.
  */
+// eslint-disable-next-line no-unused-vars
 server.use((err, req, res, next) => {
   log.error({
     req,

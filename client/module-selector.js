@@ -40,6 +40,7 @@ export default function ModuleSelector({ modules, onChange, value }) {
           Select Ladok module
         </option>
         {modules.map((module, i) => (
+          // eslint-disable-next-line react/no-array-index-key
           <option key={i} value={i}>
             {module.code} - ({module.name.en} /{module.name.sv})
           </option>

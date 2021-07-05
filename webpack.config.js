@@ -30,9 +30,11 @@ module.exports = {
           {
             loader: "resolve-url-loader",
             options: {
+              // eslint-disable-next-line no-unused-vars
               join: function outerJoin(filename, options) {
                 return function innerJoin({ uri }) {
                   if (uri.startsWith("../fonts")) {
+                    // eslint-disable-next-line no-param-reassign
                     uri = `node_modules/kth-style/public${uri.slice(2)}`;
                   }
                   return uri;

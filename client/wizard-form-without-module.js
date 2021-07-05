@@ -20,6 +20,7 @@ function NextButton({ assignment, examinationDate, onClick }) {
 
   return (
     <button
+      type="button"
       className={buttonClassNames}
       disabled={disabled}
       title={title}
@@ -75,6 +76,7 @@ export default function WizardForm({ options, selection, onSubmit, onCancel }) {
       />
       <div className="button-section">
         <button
+          type="button"
           className="btn btn-secondary grid-col-2"
           onClick={() => onCancel()}
         >
