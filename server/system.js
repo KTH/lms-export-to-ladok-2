@@ -1,5 +1,6 @@
 const packageFile = require("../package.json");
 const version = require("../config/version");
+const {ladokGot} = require('../lib/utils')
 
 function about(req, res) {
   res.setHeader("Content-Type", "text/plain");
@@ -20,6 +21,12 @@ function about(req, res) {
 }
 
 async function monitor(req, res) {
+  // Funkar 
+  await ladokGot.get("/resultat/grunddata/betygsskala")
+
+  // Funkar inte, ger 404
+  await ladokGot.get('/kataloginformation/anvandare/autentiserad')
+
   const statusStr = ["APPLICATION_STATUS: OK"].join("\n");
 
   res.setHeader("Content-Type", "text/plain");
