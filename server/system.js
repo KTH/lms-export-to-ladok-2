@@ -1,10 +1,14 @@
 const packageFile = require("../package.json");
 const version = require("../config/version");
-const {ladokGot} = require('../lib/utils')
+const {ladokGot2} = require('../lib/utils')
 
-function about(req, res) {
+async function about(req, res) {
+  const {body}= await ladokGot2.get('/kataloginformation/anvandare/autentiserad')
+  const {Anvandarnamn} = JSON.parse(body)
+
   res.setHeader("Content-Type", "text/plain");
   res.send(`
+    Ladok.user:${Anvandarnamn} 
     packageFile.name:${packageFile.name}
     packageFile.version:${packageFile.version}
     packageFile.description:${packageFile.description}
@@ -21,13 +25,7 @@ function about(req, res) {
 }
 
 async function monitor(req, res) {
-  // Funkar 
-  await ladokGot.get("/resultat/grunddata/betygsskala")
-
-  // Funkar inte, ger 404
-  await ladokGot.get('/kataloginformation/anvandare/autentiserad')
-
-  const statusStr = ["APPLICATION_STATUS: OK"].join("\n");
+  const statusStr = "APPLICATION_STATUS: OK"
 
   res.setHeader("Content-Type", "text/plain");
   res.send(statusStr);
