@@ -1,10 +1,12 @@
 const packageFile = require("../package.json");
 const version = require("../config/version");
-const {ladokGot2} = require('../lib/utils')
+const { ladokGot2 } = require("../lib/utils");
 
 async function about(req, res) {
-  const {body}= await ladokGot2.get('/kataloginformation/anvandare/autentiserad')
-  const {Anvandarnamn} = JSON.parse(body)
+  const { body } = await ladokGot2.get(
+    "/kataloginformation/anvandare/autentiserad"
+  );
+  const { Anvandarnamn } = JSON.parse(body);
 
   res.setHeader("Content-Type", "text/plain");
   res.send(`
@@ -25,7 +27,7 @@ async function about(req, res) {
 }
 
 async function monitor(req, res) {
-  const statusStr = "APPLICATION_STATUS: OK"
+  const statusStr = "APPLICATION_STATUS: OK";
 
   res.setHeader("Content-Type", "text/plain");
   res.send(statusStr);
