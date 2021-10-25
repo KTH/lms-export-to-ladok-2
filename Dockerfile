@@ -1,5 +1,5 @@
 # Stage 0. Compile the frontend code
-FROM kthse/kth-nodejs:12.0.0
+FROM kthse/kth-nodejs:16.0.0
 WORKDIR /tmp/lms-export-to-ladok-2/
 RUN apk update && \
   apk add --no-cache --virtual .gyp \
