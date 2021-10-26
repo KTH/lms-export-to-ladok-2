@@ -2,7 +2,7 @@
 
 ## Copyright © 2019, [KTH](https://github.com/kth)
 
-Sends results of an assignment in Canvas LMS as module in Ladok
+Sends results of an assignment in Canvas LMS as module in Ladok.
 
 # Certificate
 This app needs a valid certificate from Ladok since it uploads grades to Ladok. When such a certificate has been downloaded, do the following to generate a base 64 encoded string from the certificate:
