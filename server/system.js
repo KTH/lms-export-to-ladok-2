@@ -1,11 +1,12 @@
 const packageFile = require("../package.json");
 const version = require("../config/version");
 const { ladokGot2 } = require("../lib/utils");
+const { ladokGenericErrorHandler } = require("../lib/errors");
 
 async function about(req, res) {
-  const { body } = await ladokGot2.get(
-    "/kataloginformation/anvandare/autentiserad"
-  );
+  const { body } = await ladokGot2
+    .get("/kataloginformation/anvandare/autentiserad")
+    .catch(ladokGenericErrorHandler);
   const { Anvandarnamn } = JSON.parse(body);
 
   res.setHeader("Content-Type", "text/plain");
