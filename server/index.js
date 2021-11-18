@@ -13,6 +13,7 @@ const { startPage, showForm } = require("./export-to-ladok");
 const getCourseStructure = require("../lib/get-course-structure");
 const transferExamination = require("../lib/transfer-examination");
 const transferModule = require("../lib/transfer-module");
+const { errorHandler } = require("../lib/errors");
 
 const server = express();
 server.set("views", path.join(__dirname, "/views"));
@@ -175,12 +176,5 @@ server.use((err, req, res, next) => {
  * In that case, the app response is a 500.
  */
 // eslint-disable-next-line no-unused-vars
-server.use((err, req, res, next) => {
-  log.error({
-    req,
-    res,
-    err,
-  });
-  res.status(500).send("Unexpected error. Status 500");
-});
+server.use(errorHandler);
 module.exports = server;
