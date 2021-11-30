@@ -75,8 +75,17 @@ apiRouter.get("/course-info", async (req, res) => {
   const { token } = req.signedCookies.access_data;
   const { courseId } = req.signedCookies.access_data;
 
-  const response = await getCourseStructure(courseId, token);
-  res.send(response);
+  try {
+    const response = await getCourseStructure(courseId, token);
+    res.send(response);
+  } catch (err) {
+    const msg = `Problems getting course info`;
+    log.error(msg, err);
+    res.status(500).send({
+      code: "ladok_fetch_course_info_error",
+      message: `${msg} - ${err.message}`,
+    });
+  }
 });
 apiRouter.get("/table", async (req, res) => {
   const { token } = req.signedCookies.access_data;
@@ -85,23 +94,30 @@ apiRouter.get("/table", async (req, res) => {
   const { assignmentId } = req.query;
   const { moduleId } = req.query;
 
-  if (moduleId) {
-    const result = await transferModule.getResults(
-      courseId,
-      moduleId,
-      assignmentId,
-      token
-    );
-
-    res.send(result);
-  } else {
-    const result = await transferExamination.getResults(
-      courseId,
-      assignmentId,
-      token
-    );
-
-    res.send(result);
+  try {
+    if (moduleId) {
+      const result = await transferModule.getResults(
+        courseId,
+        moduleId,
+        assignmentId,
+        token
+      );
+      res.send(result);
+    } else {
+      const result = await transferExamination.getResults(
+        courseId,
+        assignmentId,
+        token
+      );
+      res.send(result);
+    }
+  } catch (err) {
+    const msg = `Problems fetching results`;
+    log.error(msg, err);
+    res.status(500).send({
+      code: "ladok_fetch_results_error",
+      message: `${msg} - ${err.message}`,
+    });
   }
 });
 
@@ -145,8 +161,12 @@ apiRouter.post("/submit-grades", authorization.denyActAs, async (req, res) => {
         message: err.body.Meddelande,
       });
     } else {
-      log.error("Unknown error when transferring results to Ladok", err);
-      res.status(500).send("unknown error");
+      const msg = "Unknown error when transferring results to Ladok";
+      log.error(msg, err);
+      res.status(500).send({
+        code: "unknown_ladok_error",
+        message: `${msg} - ${err.message}`,
+      });
     }
   }
 });
