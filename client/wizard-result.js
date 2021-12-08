@@ -11,10 +11,23 @@ function WizardResult({
   if (submissionResponse.loading)
     return <Loader reason="Transfering results to ladok ..." />;
   if (submissionResponse.error) {
+    let errTitle;
+    let errDescription;
+    if (
+      ["ladok_rule_error", "ladok_auth_error"].indexOf(
+        submissionResponse.error.type
+      ) >= 0
+    ) {
+      errTitle = submissionResponse.error.message;
+      errDescription = undefined;
+    } else {
+      errTitle = "An error has occurred during the transfer.";
+      errDescription = submissionResponse.error.message;
+    }
     return (
       <>
         <div className="alert alert-danger" aria-live="polite" role="alert">
-          <h2>An error has occurred during the transfer.</h2>
+          <h2>{errTitle}</h2>
           <p>
             No grades were transferred.
             <br />
@@ -24,9 +37,11 @@ function WizardResult({
             <br />
             Examination date: <strong>{examinationDate}</strong>
           </p>
-          <p>
-            <strong>{submissionResponse.error.message}</strong>
-          </p>
+          {errDescription && (
+            <p>
+              <strong>{errDescription}</strong>
+            </p>
+          )}
           <p>
             <em>
               If you need help,{" "}

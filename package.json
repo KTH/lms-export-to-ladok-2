@@ -1,6 +1,9 @@
 {
   "name": "lms-export-to-ladok-2",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=14"
+  },
   "description": "Send results of an assignment in Canvas LMS as module in Ladok",
   "main": "app.js",
   "scripts": {
@@ -11,7 +14,7 @@
     "format": "prettier --write .",
     "start": "node .",
     "build": "NODE_ENV=production webpack",
-    "debug": "NODE_ENV=development node --nolazy --inspect-brk=9229 app.js | bunyan -o short",
+    "debug": "NODE_ENV=development node --nolazy app.js | bunyan -o short",
     "dev": "NODE_ENV=development node . | bunyan -o short"
   },
   "repository": {

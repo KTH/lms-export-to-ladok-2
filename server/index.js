@@ -13,7 +13,7 @@ const { startPage, showForm } = require("./export-to-ladok");
 const getCourseStructure = require("../lib/get-course-structure");
 const transferExamination = require("../lib/transfer-examination");
 const transferModule = require("../lib/transfer-module");
-const { errorHandler } = require("../lib/errors");
+const { errorHandler, EndpointError } = require("../lib/errors");
 
 const server = express();
 server.set("views", path.join(__dirname, "/views"));
@@ -151,22 +151,28 @@ apiRouter.post("/submit-grades", authorization.denyActAs, async (req, res) => {
       res.send(result);
     }
   } catch (err) {
-    if (err.body && err.body.Meddelande) {
-      log.warn(
-        `Known error when transferring results to Ladok: ${err.body.Meddelande}`
-      );
-
-      res.status(400).send({
-        code: "ladok_error",
-        message: err.body.Meddelande,
-      });
-    } else {
-      const msg = "Unknown error when transferring results to Ladok";
-      log.error(msg, err);
-      res.status(500).send({
-        code: "unknown_ladok_error",
-        message: `${msg} - ${err.message}`,
-      });
+    switch (err.type) {
+      case "rule_error":
+        throw new EndpointError({
+          type: "ladok_rule_error",
+          statusCode: 403,
+          message: err.message,
+          err,
+        });
+      case "auth_error":
+        throw new EndpointError({
+          type: "ladok_auth_error",
+          statusCode: 401,
+          message: err.message,
+          err,
+        });
+      default:
+        throw new EndpointError({
+          type: "ladok_unhandled_error",
+          statusCode: 400,
+          message: err.message,
+          err,
+        });
     }
   }
 });
