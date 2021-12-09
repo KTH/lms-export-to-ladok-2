@@ -79,11 +79,11 @@ apiRouter.get("/course-info", async (req, res) => {
     const response = await getCourseStructure(courseId, token);
     res.send(response);
   } catch (err) {
-    const msg = `Problems getting course info`;
-    log.error(msg, err);
-    res.status(500).send({
-      code: "ladok_fetch_course_info_error",
-      message: `${msg} - ${err.message}`,
+    throw new EndpointError({
+      type: "ladok_fetch_course_info_error",
+      statusCode: 500,
+      message: `Problems fetching results - ${err.message}`,
+      err,
     });
   }
 });
@@ -112,11 +112,11 @@ apiRouter.get("/table", async (req, res) => {
       res.send(result);
     }
   } catch (err) {
-    const msg = `Problems fetching results`;
-    log.error(msg, err);
-    res.status(500).send({
-      code: "ladok_fetch_results_error",
-      message: `${msg} - ${err.message}`,
+    throw new EndpointError({
+      type: "ladok_fetch_results_error",
+      statusCode: 500,
+      message: `Problems fetching results - ${err.message}`,
+      err,
     });
   }
 });
