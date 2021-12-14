@@ -13,7 +13,7 @@ const { startPage, showForm } = require("./export-to-ladok");
 const getCourseStructure = require("../lib/get-course-structure");
 const transferExamination = require("../lib/transfer-examination");
 const transferModule = require("../lib/transfer-module");
-const { errorHandler } = require("../lib/errors");
+const { errorHandler, EndpointError } = require("../lib/errors");
 
 const server = express();
 server.set("views", path.join(__dirname, "/views"));
@@ -75,8 +75,17 @@ apiRouter.get("/course-info", async (req, res) => {
   const { token } = req.signedCookies.access_data;
   const { courseId } = req.signedCookies.access_data;
 
-  const response = await getCourseStructure(courseId, token);
-  res.send(response);
+  try {
+    const response = await getCourseStructure(courseId, token);
+    res.send(response);
+  } catch (err) {
+    throw new EndpointError({
+      type: "ladok_fetch_course_info_error",
+      statusCode: 500,
+      message: `Problems fetching results - ${err.message}`,
+      err,
+    });
+  }
 });
 apiRouter.get("/table", async (req, res) => {
   const { token } = req.signedCookies.access_data;
@@ -85,23 +94,30 @@ apiRouter.get("/table", async (req, res) => {
   const { assignmentId } = req.query;
   const { moduleId } = req.query;
 
-  if (moduleId) {
-    const result = await transferModule.getResults(
-      courseId,
-      moduleId,
-      assignmentId,
-      token
-    );
-
-    res.send(result);
-  } else {
-    const result = await transferExamination.getResults(
-      courseId,
-      assignmentId,
-      token
-    );
-
-    res.send(result);
+  try {
+    if (moduleId) {
+      const result = await transferModule.getResults(
+        courseId,
+        moduleId,
+        assignmentId,
+        token
+      );
+      res.send(result);
+    } else {
+      const result = await transferExamination.getResults(
+        courseId,
+        assignmentId,
+        token
+      );
+      res.send(result);
+    }
+  } catch (err) {
+    throw new EndpointError({
+      type: "ladok_fetch_results_error",
+      statusCode: 500,
+      message: `Problems fetching results - ${err.message}`,
+      err,
+    });
   }
 });
 
@@ -135,18 +151,28 @@ apiRouter.post("/submit-grades", authorization.denyActAs, async (req, res) => {
       res.send(result);
     }
   } catch (err) {
-    if (err.body && err.body.Meddelande) {
-      log.warn(
-        `Known error when transferring results to Ladok: ${err.body.Meddelande}`
-      );
-
-      res.status(400).send({
-        code: "ladok_error",
-        message: err.body.Meddelande,
-      });
-    } else {
-      log.error("Unknown error when transferring results to Ladok", err);
-      res.status(500).send("unknown error");
+    switch (err.type) {
+      case "rule_error":
+        throw new EndpointError({
+          type: "ladok_rule_error",
+          statusCode: 403,
+          message: err.message,
+          err,
+        });
+      case "auth_error":
+        throw new EndpointError({
+          type: "ladok_auth_error",
+          statusCode: 401,
+          message: err.message,
+          err,
+        });
+      default:
+        throw new EndpointError({
+          type: "ladok_unhandled_error",
+          statusCode: 400,
+          message: err.message,
+          err,
+        });
     }
   }
 });
