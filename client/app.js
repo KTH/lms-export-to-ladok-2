@@ -145,7 +145,7 @@ function App() {
   //
 
   if (course.loading) return <Loader reason="Loading application ..." />;
-  if (course.error) return <div>An error occurred:{course.error}</div>;
+  if (course.error) return <div>An error occurred: {course.error.message}</div>;
 
   if (currentPage === 0) {
     return (
