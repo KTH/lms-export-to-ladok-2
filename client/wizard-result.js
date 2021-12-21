@@ -59,16 +59,30 @@ function WizardResult({
             Start over
           </button>
         </div>
-      </>
+      </> /* fix syntax highlight */
     );
   }
+  const submissionIssues = submissionResponse.data.filter(
+    (t) => t.type === "transfer_error"
+  );
+  const nrofSuccess = submissionResponse.data.filter(
+    (t) => t.type !== "transfer_error"
+  ).length;
+  const hasIssues = submissionIssues.length !== nrofSuccess;
 
   return (
     <>
-      <div className="alert alert-success" role="alert">
-        <h2>The transfer was successful.</h2>
+      <div
+        className={`alert ${hasIssues ? "alert-info" : "alert-success"}`}
+        role="alert"
+      >
+        {hasIssues ? (
+          <h2>The transfer had issues, some grades were not transferred.</h2>
+        ) : (
+          <h2>The transfer was successful.</h2>
+        )}
         <p>
-          {submissionResponse.data.length} results have been transferred.
+          {nrofSuccess} results have been transferred.
           <br />
           From: <strong>{origin}</strong>
           <br />
@@ -77,6 +91,29 @@ function WizardResult({
           Examination date: <strong>{examinationDate}</strong>
         </p>
       </div>
+      {submissionIssues.length > 0 && (
+        <div className="table-container">
+          <table>
+            <caption>We could not transfer the following grades:</caption>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>PersonNr</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              {submissionIssues.map((item) => (
+                <tr key={item.studentLadokId}>
+                  <td>{item.studentName}</td>
+                  <td>{item.studentPersonNr}</td>
+                  <td>{item.message}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       <h2 className="success-h2">Continue the grading process in Ladok</h2>
       <p>The rest of the grading process is carried out in Ladok</p>
       <div className="button-section">
