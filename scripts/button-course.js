@@ -146,11 +146,7 @@ async function start() {
 
     if (!proceed) return;
 
-    await canvas.requestUrl(
-      `/courses/${courseId}/external_tools`,
-      "POST",
-      body
-    );
+    await canvas.requestUrl(`courses/${courseId}/external_tools`, "POST", body);
 
     console.log(
       `New button created. You can see it in ${canvasRoot}courses/${courseId}`
@@ -173,7 +169,7 @@ async function start() {
     if (!proceed) return;
 
     await canvas.requestUrl(
-      `/courses/${courseId}/external_tools/${buttonId}`,
+      `courses/${courseId}/external_tools/${buttonId}`,
       "PUT",
       body
     );
