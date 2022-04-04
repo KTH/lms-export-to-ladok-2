@@ -20,7 +20,7 @@ services:
       - LADOK_KTH_LAROSATE_ID=29
       - LADOK_REPORTER_PROFILE_UID=0997fd42-7488-11e8-920e-2de0ccaf48ac
       - PROXY_BASE=http://exporttoladok-e2e-test:3001
-      - PROXY_PATH=/api/lms-export-to-ladok
+      - PROXY_PATH=/api/lms-export-to-ladok-2
       - COOKIE_SIGNATURE_SECRET=aaaa
       - MONGODB_CONNECTION_STRING
       - MONGODB_DATABASE_NAME=stage-export-to-ladok-logs

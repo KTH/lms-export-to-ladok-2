@@ -9,7 +9,7 @@
   "scripts": {
     "test:lint": "eslint *.js client lib server",
     "test": "prettier --check . && npm run test:lint",
-    "test:browser": "npx cypress open",
+    "test:browser": "npx cypress open --project e2e",
     "test:browser-docker": "docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --build",
     "format": "prettier --write .",
     "start": "node .",
