@@ -3,7 +3,7 @@
  * It tries to fetch course information
  */
 require("dotenv").config();
-const getCourseStructure = require("../../lib/get-course-structure");
+const { getCourseStructure } = require("../../lib/get-course-structure");
 
 async function start() {
   const token = process.env.CANVAS_ADMIN_API_TOKEN;
