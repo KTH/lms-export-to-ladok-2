@@ -34,7 +34,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.3.5",
     "express-promise-router": "^3.0.3",
-    "got": "^9.6.0",
+    "got": "^11.8.5",
     "kth-style": "^6.0.21",
     "memoizee": "^0.4.14",
     "mongodb": "^3.6.2",
