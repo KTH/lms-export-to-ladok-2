@@ -1,11 +1,10 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
 const Router = require("express-promise-router");
-const log = require("skog");
+const { skogMiddleware, default: log } = require("skog");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const cuid = require("cuid");
 const system = require("./system");
 const { oauth1, oauth2 } = require("./oauth")("/export3");
 const authorization = require("./authorization");
@@ -27,15 +26,7 @@ server.use(
   })
 );
 server.use(cookieParser(process.env.COOKIE_SIGNATURE_SECRET));
-
-server.use((req, res, next) => {
-  log.child(
-    {
-      req_id: cuid(),
-    },
-    next
-  );
-});
+server.use(skogMiddleware);
 
 const PROXY_PATH = process.env.PROXY_PATH || "";
 

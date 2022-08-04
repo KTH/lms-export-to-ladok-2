@@ -1,14 +1,13 @@
 require("dotenv").config();
 require("@kth/reqvars").check();
-require("skog/bunyan").createLogger({
-  name: "lms-export-to-ladok-2",
-  app: "lms-export-to-ladok-2",
-  serializers: require("bunyan").stdSerializers,
-  level: process.env.LOG_LEVEL || "info",
-});
-require("./lib/mongo").init();
+const { default: log, initializeLogger, setFields } = require("skog");
 
-const log = require("skog");
+initializeLogger();
+setFields({
+  app: "lms-export-to-ladok-2",
+});
+
+require("./lib/mongo").init();
 const server = require("./server");
 
 process.on("uncaughtException", (err) => {

@@ -1,4 +1,4 @@
-const log = require("skog");
+const log = require("skog").default;
 const querystring = require("querystring");
 const { URL } = require("url");
 const got = require("got");

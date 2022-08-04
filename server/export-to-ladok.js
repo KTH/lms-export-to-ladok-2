@@ -1,4 +1,4 @@
-const log = require("skog");
+const log = require("skog").default;
 
 async function startPage(req, res) {
   log.info("log-visited!!!");
