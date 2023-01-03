@@ -39,7 +39,7 @@
     "memoizee": "^0.4.14",
     "mongodb": "^3.6.2",
     "react-datepicker": "^3.3.0",
-    "react-hot-loader": "^4.13.0",
+    "react-hot-loader": "^4.13.1",
     "skog": "^3.0.2"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@kth/eslint-config-kth": "^1.0.10",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.3.0",
     "core-js": "^3.6.5",
     "css-loader": "^5.2.6",
     "eslint": "^7.30.0",
@@ -61,8 +61,8 @@
     "react-dom": "^16.14.0",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.34.1",
-    "sass-loader": "^8.0.2",
-    "url-loader": "^3.0.0",
+    "sass-loader": "^13.2.0",
+    "url-loader": "^4.1.1",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^3.7.3",
