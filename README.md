@@ -9,7 +9,7 @@ Sends results of an assignment in Canvas LMS as module in Ladok.
 1. install app
 
 ```
-  $ npm i
+  $ npm install
 ```
 
 2. create Ladok certificate
