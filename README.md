@@ -1,5 +1,8 @@
 # LMS Transfer to Ladok
 
+> [!Warning]
+> This repository is no longer maintained. Repository for Transfer to Ladok is https://github.com/kth/transfer-to-ladok
+
 ## Copyright © 2019, [KTH](https://github.com/kth)
 
 Sends results of an assignment in Canvas LMS as module in Ladok.
